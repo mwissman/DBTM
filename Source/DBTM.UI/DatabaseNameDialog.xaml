@@ -1,0 +1,16 @@
+﻿<Window x:Class="DBTM.UI.DatabaseNameDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Database Name" Height="135" Width="250" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+       
+        <TextBlock  Name="textBlock1" VerticalAlignment="Top" Text="Database Name: " />
+        <TextBox  Name="txtDatabseName" VerticalAlignment="Bottom" Width="150" Height="25" Margin="0,10,0,10"/>
+        
+        <StackPanel Orientation="Horizontal">
+        <Button  Name="btnOkay" VerticalAlignment="Bottom" Content="Ok" Width="100" Height="30" Click="btnOkay_Click" Margin="0,0,2.5,0" IsDefault="True" />
+            
+        <Button  Name="btnCancel" VerticalAlignment="Bottom" Content="Cancel" Width="100" Height="30" Click="btnCancel_Click" Margin="2.5,0,0,0" IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
+</Window>

@@ -1,0 +1,396 @@
+﻿<Window x:Class="DBTM.UI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:DBTM.UI.Converters" 
+    xmlns:UI="clr-namespace:DBTM.UI"
+    AllowDrop="True" 
+    Drop="MainWindowDrop" 
+    Closing="WindowClosing"
+    x:Name="wndMain"
+    ResizeMode="CanResizeWithGrip"
+    MinHeight="660" Height="660"
+    MinWidth="1100" Width="1100">
+
+    <Window.Resources>
+        <Style x:Key="requiredFieldStyle" TargetType="TextBox">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                    <Setter Property="TextBox.BorderBrush" Value="Red" />
+                    <Setter Property="TextBox.ToolTip" Value="Description is required" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="StatusBarTextBox" TargetType="{x:Type TextBlock}">
+            <Setter Property="FontSize" Value="10" />
+        </Style>
+
+        <Style x:Key="ReadOnlyTextBox" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsReadOnly}" Value="True">
+                    <Setter Property="Panel.Background" Value="{DynamicResource ResourceKey={x:Static SystemColors.ControlBrushKey}}" />
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource ResourceKey={x:Static SystemColors.GrayTextBrushKey}}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ReadOnlyTextEditor" TargetType="{x:Type UI:BindableTextEditor}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsReadOnly}" Value="True">
+                    <Setter Property="Panel.Background" Value="{DynamicResource ResourceKey={x:Static SystemColors.ControlBrushKey}}" />
+                    <Setter Property="TextElement.Foreground" Value="{DynamicResource ResourceKey={x:Static SystemColors.GrayTextBrushKey}}" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Converters:MoveStatementValuesConverter x:Key="MoveStatementConverter" />
+        <Converters:BooleanNotConverter x:Key="boolNot" />
+        <Converters:TitleConverter x:Key="TitleConverter" />
+
+    </Window.Resources>
+
+    <Window.Title>
+        <MultiBinding Converter="{StaticResource ResourceKey=TitleConverter}" FallbackValue="alskdjfasf">
+            <Binding Path="Database.IsSaved" />
+            <Binding Path="Settings.DatabaseFilePath" />
+        </MultiBinding>
+    </Window.Title>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CloseExecuted" />
+    </Window.CommandBindings>
+  
+    <DockPanel>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Top" >
+            <Menu>
+                <MenuItem x:Name="mnuFile" Header="_File">
+                    <MenuItem x:Name="mnuNew" Header="_New" Command="{Binding Path=NewDatabaseCommand}" InputGestureText="Ctrl+N" />
+                    <MenuItem x:Name="mnuOpen" Header="_Open" Command="{Binding Path=OpenDatabaseCommand}" InputGestureText="Ctrl+O" />
+                    <MenuItem x:Name="mnuSave" Header="_Save" Command="{Binding Path=SaveDatabaseCommand}" InputGestureText="Ctrl+S"  />
+                    <MenuItem x:Name="mnuSaveas" Header="Save _As" Command="{Binding Path=SaveDatabaseAsCommand}" />
+                    <Separator/>
+                    <MenuItem x:Name="mnuExit" Header="E_xit" Command="ApplicationCommands.Close" />
+                </MenuItem>
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="Cu_t" Command="ApplicationCommands.Cut" InputGestureText="Ctrl+X"/>
+                    <MenuItem Header="_Copy" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
+                    <MenuItem Header="_Paste" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
+                </MenuItem>
+            </Menu>
+
+            <ToolBarTray>
+                <ToolBar Band="1" BandIndex="1">
+                    <Button x:Name="btnNewDatabase" Command="{Binding Path=NewDatabaseCommand}" ToolTip="New Database Scheme XML File">
+                        <Image Source="images\Crystal_Clear_action_filenew.png" Height="26" Width="26" />
+                    </Button>
+                    <Button x:Name="btnOpen" Command="{Binding Path=OpenDatabaseCommand}" ToolTip="Open Database Scheme XML File ">
+                        <Image Source="images\Crystal_Clear_filesystem_folder_grey_open.png"  Height="26" Width="26"/>
+                    </Button>
+                    <Button x:Name="btnSave" Command="{Binding Path=SaveDatabaseCommand}" ToolTip="Save Database Scheme XML File" >
+                        <Image Source="images\Crystal_Clear_device_floppy_unmount.png"  Height="26" Width="26"/>
+                    </Button>
+                </ToolBar>
+
+                <ToolBar Band="1" BandIndex="2">
+                    <Button x:Name="btnFullbuild" Command="{Binding Path=FullBuildCommand}" ToolTip="Full Database Build" 
+                            IsEnabled="{Binding Path=Database.CanFullBuild, FallbackValue=false}">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images\Crystal_Clear_action_db_update.png"  Height="26" Width="26"/>
+                            <TextBlock Text="Full Build" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCompileVersion" 
+                        Command="{Binding ElementName=wndMain, Path=DataContext.CompileVersionCommand}" 
+                        CommandParameter="{Binding ElementName=lbVersions, Path=SelectedItem}"
+                        DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}" 
+                        IsEnabled="{Binding Path=IsEditable, FallbackValue=false}" 
+                        ToolTip="Compile Upgrade/Rollback Scripts">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images\Crystal_Clear_app_kservices.png"  Height="26" Width="26"/>
+                            <TextBlock Text="Compile" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnCompileAll" 
+                        Command="{Binding ElementName=wndMain, Path=DataContext.CompileAllCommand}" 
+                        IsEnabled="{Binding Path=Database.CanFullBuild, FallbackValue=false}" 
+                        ToolTip="Compile Upgradge Script for all Versions">
+
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images\Crystal_Clear_app_kget.png"  Height="26" Width="26"/>
+                            <TextBlock Text="Compile All" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+
+                <ToolBar Band="1" BandIndex="3">
+                    <Button x:Name="btnOpenDbConnection" ToolTip="Set Connection String" Command="{Binding Path=SetConnectionStringCommand}">
+                        <Image Source="images\Crystal_Clear_filesystem_chardevice.png"  Height="26" Width="26"/>
+                    </Button>
+                    <Button x:Name="btnAddVersion" Command="{Binding Path=AddVersionCommand}" ToolTip="Add Version" IsEnabled="{Binding Path=Database.IsEditable, FallbackValue=false}" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images\Crystal_Clear_action_edit_add.png"  Height="26" Width="26"/>
+                            <TextBlock Text="Add Version" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnAddStatement" 
+                        Command="{Binding ElementName=wndMain,Path=DataContext.AddStatementCommand}"
+                        CommandParameter="{Binding ElementName=lbVersions, Path=SelectedItem,FallbackValue=null}"
+                        DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}" 
+                        IsEnabled="{Binding Path=IsEditable, FallbackValue=false}" 
+                        ToolTip="Add a new Statement to the Version" >
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="images\Crystal_Clear_action_tab_new.png"  Height="26" Width="26"/>
+                            <TextBlock Text="Add Statement" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
+                </ToolBar>
+
+            </ToolBarTray>
+
+            <GroupBox Header="Settings" Width="650" HorizontalAlignment="Left" Margin="5,0,0,0">
+                <StackPanel Orientation="Vertical"  HorizontalAlignment="Center" >
+
+                    <StackPanel Orientation="Horizontal" DataContext="{Binding Path=Database}">
+                        <TextBlock Text="Database Name: " Width="125"/>
+                        <TextBlock x:Name="tbDatabaseName" Width="200" Text="{Binding Path=DbName }" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"  DataContext="{Binding Path=Settings}">
+                        <TextBlock Text="Connection String: " Width="125" />
+                        <TextBlock x:Name="tbConnectionString" MinWidth="500" Text="{Binding Path=ConnectionString }"  />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" DataContext="{Binding Path=Settings}">
+                        <TextBlock Text="File: " Width="125" />
+                        <TextBlock x:Name="tbFilePath" MinWidth="200" Text="{Binding Path=DatabaseFilePath }" />
+                    </StackPanel>
+
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <StatusBar Height="20" DockPanel.Dock="Bottom">
+
+            <StatusBarItem >
+                <TextBlock Style="{StaticResource ResourceKey=StatusBarTextBox}" >Version :</TextBlock>
+            </StatusBarItem>
+
+            <StatusBarItem>
+                <TextBlock Text="{Binding Path=Version}" Style="{StaticResource ResourceKey=StatusBarTextBox}"/>
+            </StatusBarItem>
+
+            <Separator/>
+
+            <StatusBarItem>
+                <TextBlock Text="" HorizontalAlignment="Stretch" Style="{StaticResource ResourceKey=StatusBarTextBox}" Name="tbStatusBarMessage"/>
+            </StatusBarItem>
+
+        </StatusBar>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="660"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                <StackPanel Orientation="Horizontal">
+                    <GroupBox Header="Versions" Margin="5,0,5,0">
+                        <StackPanel Orientation="Vertical">
+
+                            <ListBox x:Name="lbVersions" 
+                                 DataContext="{Binding Path=Database}" 
+                                 ItemsSource="{Binding Path=Versions}" 
+                                 BorderThickness="1"
+                                 HorizontalContentAlignment="Stretch" 
+                                 VerticalContentAlignment="Stretch"
+                                 Width="230" Height="300"
+                                 Margin="10,10,10,10">
+
+                                <ListBox.ItemTemplate>
+
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="Transparent">
+                                            <TextBlock Text="{Binding Path=VersionNumber}"  />
+                                            <TextBlock Text=" - "  />
+                                            <TextBlock Text="{Binding Path=CardNumber}"  />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <GroupBox Header="Version Information" Margin="3,3,3,3" Padding="5,5,5,5" HorizontalAlignment="Center" >
+
+                                <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}">
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Text="Card Number:" Margin="0,0,5,0" Grid.Column="0" Grid.Row="0"  />
+                                        <TextBox Name="txtVersionCardNumber" Width="50" MaxLength="10" Margin="2" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Path=CardNumber,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding Path=IsEditable, FallbackValue=false}"/>
+
+                                        <TextBlock Text="Description:" Margin="0,0,5,0" Grid.Column="0" Grid.Row="1" />
+                                        <TextBox Name="txtVersionDescription" Width="200" MaxLength="50" Margin="2" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" IsEnabled="{Binding Path=IsEditable,FallbackValue=false}" Text="{Binding Path=Description,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                        <TextBlock Text="Created:" Margin="0,0,5,0" Grid.Column="0" Grid.Row="2" />
+                                        <TextBox Name="txtVersionCreatedDateTime" Width="150" MaxLength="50" Margin="2" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" IsEnabled="False"  Text="{Binding Path=Created,Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                                    </Grid>
+
+                                </StackPanel>
+
+                            </GroupBox>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="Statements">
+                        <StackPanel Orientation="Horizontal">
+                            <TabControl Name="tcStatementTypes" TabStripPlacement="Top">
+
+                                <UI:SqlStatementTabItem Header="Pre Deployment" DataContext="{Binding ElementName=lbPreDeploymentStatements}" StatementType="PreDeployment">
+
+                                    <ListBox Name="lbPreDeploymentStatements" BorderThickness="1" Margin="10,10,10,10" Width="230" Height="350" SelectionMode="Single"
+                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top"
+                                 DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}" 
+                                 ItemsSource="{Binding Path=PreDeploymentStatements}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Path=Description}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                </UI:SqlStatementTabItem>
+                                <UI:SqlStatementTabItem Header="Backfill" DataContext="{Binding ElementName=lbBackFillStatements}" StatementType="Backfill">
+
+                                    <ListBox Name="lbBackFillStatements" BorderThickness="1" Margin="10,10,10,10" Width="230" Height="350" SelectionMode="Single"
+                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top"
+                                 DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}" 
+                                 ItemsSource="{Binding Path=BackfillStatements}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Path=Description}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                </UI:SqlStatementTabItem>
+                                <UI:SqlStatementTabItem Header="Post Deployment" DataContext="{Binding ElementName=lbPostDeploymentStatements}" StatementType="PostDeployment">
+
+                                    <ListBox Name="lbPostDeploymentStatements" BorderThickness="1" Margin="10,10,10,10" Width="230" Height="350" SelectionMode="Single"
+                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top"
+                                 DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}" 
+                                 ItemsSource="{Binding Path=PostDeploymentStatements}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Path=Description}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                </UI:SqlStatementTabItem>
+                            </TabControl>
+
+                            <StackPanel Name="spStatementMoveButtons" Orientation="Vertical" VerticalAlignment="Center" Margin="5,0,10,0" >
+
+                                <Button x:Name="btnMoveStatementUp" ToolTip="Move Statement Up" Margin="0,0,0,2" 
+                                Command="{Binding ElementName=wndMain,Path=DataContext.MoveStatementUpCommand}"
+                                DataContext="{Binding ElementName=tcStatementTypes, Path=SelectedItem.DataContext.SelectedItem}"
+                                IsEnabled="{Binding Path=CanMoveUpAndIsEditable,FallbackValue=False}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource ResourceKey=MoveStatementConverter}">
+                                            <Binding ElementName="tcStatementTypes" Path="SelectedItem.DataContext.SelectedItem" />
+                                            <Binding ElementName="tcStatementTypes" Path="SelectedItem.DataContext.ItemsSource"/>
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                    <Image Source="images\Crystal_Clear_action_2uparrow.png"  Height="26" Width="26"/>
+                                </Button>
+
+                                <Button x:Name="btnMoveStatementDown" ToolTip="Move Statement Down" Margin="0,2,0,0" 
+                                Command="{Binding ElementName=wndMain,Path=DataContext.MoveStatementDownCommand}"
+                                DataContext="{Binding ElementName=tcStatementTypes, Path=SelectedItem.DataContext.SelectedItem}" 
+                                IsEnabled="{Binding Path=CanMoveDownAndIsEditable,FallbackValue=False}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource ResourceKey=MoveStatementConverter}">
+                                            <Binding ElementName="tcStatementTypes" Path="SelectedItem.DataContext.SelectedItem" />
+                                            <Binding ElementName="tcStatementTypes" Path="SelectedItem.DataContext.ItemsSource" />
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                    <Image Source="images\Crystal_Clear_action_2downarrow.png"  Height="26" Width="26"/>
+                                </Button>
+
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+
+
+            </StackPanel>
+
+            <GroupBox Header="Statement Details" Grid.Column="1" Grid.Row="0" Margin="5,0,5,5">
+                <DockPanel x:Name="spSqlStatementEditor" DataContext="{Binding ElementName=tcStatementTypes, Path=SelectedItem.DataContext.SelectedItem}" 
+                       VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="auto" Width="auto" >
+
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Label Content="Description" />
+                        <TextBox x:Name="txtDescription" Style="{StaticResource requiredFieldStyle}" 
+                             Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="300"
+                             IsEnabled="{Binding Path=IsEditable, FallbackValue=false}" />
+                    </StackPanel>               
+                    
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <StackPanel.Resources>
+                            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+                        </StackPanel.Resources>
+                        <Label Visibility="{Binding Path=MayContainCrossDatabaseJoin, FallbackValue=Collapsed, UpdateSourceTrigger=LostFocus,
+                             Converter={StaticResource BoolToVis}}" 
+                               Content="May Contain Cross Database Join. Please use {dbx:DbName} syntax."
+                               Background="Yellow" 
+                               />
+                    </StackPanel>
+
+                    <TabControl Margin="10,10,10,10" MinHeight="375" MinWidth="350"  >
+                        <TabItem Header="Upgrade">
+                            <UI:BindableTextEditor x:Name="txtUpgradeSqlStatement" 
+                                              BindableText="{Binding Path=UpgradeSQL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                               VerticalScrollBarVisibility="Auto" 
+                                               HorizontalScrollBarVisibility="Auto" 
+                                               IsReadOnly="{Binding Path=IsEditable, FallbackValue=true,Converter={StaticResource boolNot}}"
+                                               Style="{StaticResource ResourceKey=ReadOnlyTextEditor}" />
+
+                        </TabItem>
+                        <TabItem Header="Rollback">
+                            <UI:BindableTextEditor x:Name="txtRollbackSqlStatement" 
+                                              BindableText="{Binding Path=RollbackSQL,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                               VerticalScrollBarVisibility="Auto" 
+                                               HorizontalScrollBarVisibility="Auto" 
+                                               IsReadOnly="{Binding Path=IsEditable, FallbackValue=true,Converter={StaticResource boolNot}}"
+                                               Style="{StaticResource ResourceKey=ReadOnlyTextEditor}" />
+
+                        </TabItem>
+                    </TabControl>
+                </DockPanel>
+            </GroupBox>
+        </Grid>
+
+    </DockPanel>
+</Window>

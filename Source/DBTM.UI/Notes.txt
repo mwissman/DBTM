@@ -1,0 +1,9 @@
+﻿-New DBTM file, base line version is 1
+-Old DBTM file, base line version is current
+-Compile all, include DBTM scripts at start despite base line version
+-Full build, include DBTM scripts at start despite base line version
+-compile script
+	-check to see if this statement has run
+		proceed if not run, insert started record, update record to complete when done
+		stop if run
+	-check to see if dependent statement has been run

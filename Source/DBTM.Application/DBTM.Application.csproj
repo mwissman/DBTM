@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{889252A9-2368-43F4-8430-B1C7A978AF55}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DBTM.Application</RootNamespace>
+    <AssemblyName>DBTM.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\build\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\build\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApplicationCommandModule.cs" />
+    <Compile Include="ApplicationModule.cs" />
+    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="AutofacRequestContainerProvider.cs" />
+    <Compile Include="Commands\AddStatementCommand.cs" />
+    <Compile Include="Commands\AddVersionCommand.cs" />
+    <Compile Include="Commands\BaseSaveCommand.cs" />
+    <Compile Include="Commands\CloseWindowCommand.cs" />
+    <Compile Include="Commands\CompileAllVersionsCommand.cs" />
+    <Compile Include="Commands\CompileVersionCommand.cs" />
+    <Compile Include="Commands\FullBuildCommand.cs" />
+    <Compile Include="Commands\InitializeViewCommand.cs" />
+    <Compile Include="Commands\MoveStatementBaseCommand.cs" />
+    <Compile Include="Commands\MoveStatementDownCommand.cs" />
+    <Compile Include="Commands\MoveStatementUpCommand.cs" />
+    <Compile Include="Commands\NewDatabaseCommand.cs" />
+    <Compile Include="Commands\NoOpCommand.cs" />
+    <Compile Include="Commands\OpenDatabaseCommand.cs" />
+    <Compile Include="Commands\SaveDatabaseAsCommand.cs" />
+    <Compile Include="Commands\SaveDatabaseCommand.cs" />
+    <Compile Include="Commands\SetConnectionStringCommand.cs" />
+    <Compile Include="Commands\StatementMoveRequest.cs" />
+    <Compile Include="Compiler.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="DatabaseBuildResult.cs" />
+    <Compile Include="DatabaseBuildService.cs" />
+    <Compile Include="FullBuildDialogResults.cs" />
+    <Compile Include="IApplicationSettings.cs" />
+    <Compile Include="IArgumentsProvider.cs" />
+    <Compile Include="ICompiler.cs" />
+    <Compile Include="ISqlFile.cs" />
+    <Compile Include="ISqlFileList.cs" />
+    <Compile Include="ISqlFileReader.cs" />
+    <Compile Include="SqlFile.cs" />
+    <Compile Include="SqlFileList.cs" />
+    <Compile Include="SqlFileReader.cs" />
+    <Compile Include="Views\ICanOpenDatabasesView.cs" />
+    <Compile Include="Views\ICompileVersionView.cs" />
+    <Compile Include="Views\IDisplayStatusMessagesView.cs" />
+    <Compile Include="ISqlScriptRepository.cs" />
+    <Compile Include="ISqlServerDatabase.cs" />
+    <Compile Include="Views\IMainWindowView.cs" />
+    <Compile Include="ISqlFileWriter.cs" />
+    <Compile Include="ISqlServerDatabaseSettings.cs" />
+    <Compile Include="ITestSqlServerConnectionStrings.cs" />
+    <Compile Include="SetConnectionStringResult.cs" />
+    <Compile Include="SqlFileWriter.cs" />
+    <Compile Include="SqlScriptRepository.cs" />
+    <Compile Include="SqlServerConnectionStringTester.cs" />
+    <Compile Include="SqlServerDatabase.cs" />
+    <Compile Include="SqlServerDatabaseSettings.cs" />
+    <Compile Include="SQL\SqlCommandException.cs" />
+    <Compile Include="SQL\DbCommandFactory.cs" />
+    <Compile Include="IDatabaseBuildService.cs" />
+    <Compile Include="Factories\IDatabaseConnectionFactory.cs" />
+    <Compile Include="Factories\IDbCommandFactory.cs" />
+    <Compile Include="SQL\ISqlRunner.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsProvider.cs" />
+    <Compile Include="SQL\SQLConnectionFactory.cs" />
+    <Compile Include="SQL\SqlRunner.cs" />
+    <Compile Include="StatementType.cs" />
+    <Compile Include="ViewModels\DatabaseSchemaModelView.cs" />
+    <Compile Include="ViewModels\IDatabaseSchemaViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBTM.Domain\DBTM.Domain.csproj">
+      <Project>{6F383F6F-0FDA-42C1-9530-D4BA54F889BE}</Project>
+      <Name>DBTM.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBTM.Infrastructure\DBTM.Infrastructure.csproj">
+      <Project>{68C6359C-A4D8-4000-92CD-729DF9088158}</Project>
+      <Name>DBTM.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\CreateSchema.sql" />
+    <EmbeddedResource Include="SqlScripts\Disconnect.sql" />
+    <EmbeddedResource Include="SqlScripts\DropSchema.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\DBTMHistoryRollback.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\DBTMHistoryUpgrade.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

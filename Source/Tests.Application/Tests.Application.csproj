@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0E93EDE3-0D48-4D73-9D59-99C3B092E861}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Tests.Application</RootNamespace>
+    <AssemblyName>Tests.Application</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\testsOutput\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\testsOutput\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.1.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="Rhino.Mocks">
+      <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\AddStatementCommandTests.cs" />
+    <Compile Include="Commands\AddVersionCommandTests.cs" />
+    <Compile Include="Commands\CloseWindowCommandTests.cs" />
+    <Compile Include="Commands\CompileAllVersionsTests.cs" />
+    <Compile Include="Commands\CompileVersionCommandTests.cs" />
+    <Compile Include="Commands\FullBuildCommandTests.cs" />
+    <Compile Include="Commands\InitializeViewCommandTests.cs" />
+    <Compile Include="Commands\MoveStatementDownCommandTests.cs" />
+    <Compile Include="Commands\MoveStatementUpCommandTests.cs" />
+    <Compile Include="Commands\NewDatabaseCommandTests.cs" />
+    <Compile Include="Commands\OpenDatabaseCommandTests.cs" />
+    <Compile Include="Commands\SaveDatabaseAsCommandTests.cs" />
+    <Compile Include="Commands\SaveDatabaseCommandTests.cs" />
+    <Compile Include="Commands\SetConnectionStringCommandTests.cs" />
+    <Compile Include="CompilerTests\WhenCompilingAll.cs" />
+    <Compile Include="CompilerTests\WhenCompilingLatestVersion.cs" />
+    <Compile Include="DatabaseBuildServiceTests.cs" />
+    <Compile Include="DbCommandFactoryTests.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SqlFileWriterTests.cs" />
+    <Compile Include="SqlRunnerTests.cs" />
+    <Compile Include="SqlScriptRepositoryTests.cs" />
+    <Compile Include="SqlServerDatabaseSettingsTests.cs" />
+    <Compile Include="SqlServerDatabaseTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBTM.Application\DBTM.Application.csproj">
+      <Project>{889252A9-2368-43F4-8430-B1C7A978AF55}</Project>
+      <Name>DBTM.Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBTM.Domain\DBTM.Domain.csproj">
+      <Project>{6F383F6F-0FDA-42C1-9530-D4BA54F889BE}</Project>
+      <Name>DBTM.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBTM.Infrastructure\DBTM.Infrastructure.csproj">
+      <Project>{68C6359C-A4D8-4000-92CD-729DF9088158}</Project>
+      <Name>DBTM.Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,5 @@
+C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.Infrastructure.dll
+C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.Infrastructure.pdb
+C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Infrastructure\obj\Debug\DBTM.Infrastructure.csprojResolveAssemblyReference.cache
+C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Infrastructure\obj\Debug\DBTM.Infrastructure.dll
+C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Infrastructure\obj\Debug\DBTM.Infrastructure.pdb

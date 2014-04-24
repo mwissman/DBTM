@@ -1,0 +1,5 @@
+C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.Domain.dll
+C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.Domain.pdb
+C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Domain\obj\Debug\DBTM.Domain.csprojResolveAssemblyReference.cache
+C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Domain\obj\Debug\DBTM.Domain.dll
+C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Domain\obj\Debug\DBTM.Domain.pdb

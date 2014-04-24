@@ -1,0 +1,17 @@
+﻿<Window x:Class="DBTM.UI.ConnectionStringBuilder"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Create a SQL Server Connection String" Height="150" Width="647" WindowStyle="ToolWindow" WindowStartupLocation="CenterOwner" ShowInTaskbar="False" ResizeMode="NoResize">
+  
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10,0,10,0">
+            <TextBlock Text="Enter the connection string:"/>
+            
+            <TextBox x:Name="txtConnectionString" Height="25" HorizontalAlignment="Stretch" Margin="0,10,0,10" Text="Data Source=[Server];Initial Catalog=[Database];User Id=[Username];Password=[Passowrd];Pooling=False" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnOkay" Content="Okay" Width="100" Height="30" Click="btnOkay_Click" IsDefault="True"/>
+                <Button x:Name="btnCancel" Content="Cancel" Width="100" Height="30" Click="btnCancel_Click" IsCancel="True" />
+            </StackPanel>
+        </StackPanel>
+
+</Window>
