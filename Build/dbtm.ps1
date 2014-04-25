@@ -1,10 +1,11 @@
 Properties {
 	$build_dir = Split-Path $psake.build_script_file
-	$testOutputDir = "$build_dir\testsOutput"
+	$base_dir = join-path $build_dir "..\"
+	$testOutputDir = "$base_dir\Source\testsOutput"
 	$solutionConfig="Debug"
-	$code_dir = $build_dir
+	
 	$solution="DB Transition Manager.sln"
-	$nunitRunnerExe="$build_dir\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe"
+	$nunitRunnerExe="$base_dir\Source\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe"
 }
 
 FormatTaskName (("-"*25) + "[{0}]" + ("-"*25))
@@ -15,14 +16,14 @@ Task Build -Depends Clean, Compile, UnitTests
 
 Task Compile -Depends Clean {	
 	Write-Host "Building $solution" -ForegroundColor Green
-	Exec { msbuild "$code_dir\$solution" /t:Build /p:Configuration=$solutionConfig /v:quiet} 
+	Exec { msbuild "$base_dir\$solution" /t:Build /p:Configuration=$solutionConfig /v:quiet} 
 }
 
 Task Clean {
 	
 	
 	Write-Host "Cleaning $solution" -ForegroundColor Green
-	Exec { msbuild "$code_dir\$solution" /t:Clean /p:Configuration=$solutionConfig /v:quiet } 
+	Exec { msbuild "$base_dir\$solution" /t:Clean /p:Configuration=$solutionConfig /v:quiet } 
 
 	if (test-path $testOutputDir) 
 	{

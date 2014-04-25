@@ -1,0 +1,7 @@
+Build/TestResult.xml
+Source/DBTM.Application/obj/
+Source/DBTM.Cmd/obj/
+obj/
+bin/
+Source/build/
+Source/testsOutput/
