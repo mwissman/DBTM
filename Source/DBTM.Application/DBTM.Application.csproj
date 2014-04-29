@@ -39,7 +39,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>DBTM.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\..\Build\DBTM.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac">
@@ -144,7 +144,9 @@
     <EmbeddedResource Include="SqlScripts\DropSchema.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DBTM.snk" />
+    <None Include="..\..\Build\DBTM.snk">
+      <Link>DBTM.snk</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

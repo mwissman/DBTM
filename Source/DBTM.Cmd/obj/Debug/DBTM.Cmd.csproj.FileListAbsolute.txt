@@ -1,6 +1,0 @@
-C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.exe.config
-C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.exe
-C:\Users\Matt\Documents\GitHub\DBTM\Source\build\Debug\DBTM.pdb
-C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Cmd\obj\Debug\DBTM.Cmd.csprojResolveAssemblyReference.cache
-C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Cmd\obj\Debug\DBTM.exe
-C:\Users\Matt\Documents\GitHub\DBTM\Source\DBTM.Cmd\obj\Debug\DBTM.pdb

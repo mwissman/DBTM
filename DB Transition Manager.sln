@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		build.ps1 = build.ps1
 		Build\dbtm.ps1 = Build\dbtm.ps1
+		Build\DBTM.snk = Build\DBTM.snk
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTM.UI", "Source\DBTM.UI\DBTM.UI.csproj", "{63BF09A2-7A3C-4F16-8B12-1FB9C66B1D99}"
