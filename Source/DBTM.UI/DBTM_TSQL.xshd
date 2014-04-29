@@ -5,7 +5,7 @@
   <!--<Color name="Keywords" foreground="Blue" fontWeight="bold" exampleText="EXEC" />-->
   <Color name="ReservedWords" foreground="Blue" fontWeight="bold" exampleText="GETDATE" />
   <Color name="Functions" foreground="Purple" fontWeight="bold" exampleText="GETDATE" />
-  <Color name="DBTM" foreground="Brown" fontWeight="bold" exampleText="{dbx:RedboxServerDB}"/>
+  <Color name="DBTM" foreground="Brown" fontWeight="bold" exampleText="{dbx:DatabaseName}"/>
   <RuleSet ignoreCase="true">
     <Span color="Comment">
       <Begin>--</Begin>

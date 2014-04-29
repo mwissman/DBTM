@@ -13,8 +13,8 @@ namespace Tests.Cmd
             string databaseName = "somedatabase";
             string server = "someserver";
             string userName = "someone";
-            string dataFilePath = @"c:\redbox\database\datafile.mdf";
-            string databaseFilePath = @"c:\redbox\database\databasefile.dbschema";
+            string dataFilePath = @"c:\work\database\datafile.mdf";
+            string databaseFilePath = @"c:\work\database\databasefile.dbschema";
             string password = "password";
             string crossDatabaseNamePrefix = "TestBranch_";
 
@@ -46,8 +46,8 @@ namespace Tests.Cmd
             string databaseName = "somedatabase";
             string server = "someserver";
             string userName = "someone";
-            string dataFilePath = @"c:\redbox\database\datafile.mdf";
-            string databaseFilePath = @"c:\redbox\database\databasefile.dbschema";
+            string dataFilePath = @"c:\work\database\datafile.mdf";
+            string databaseFilePath = @"c:\work\database\databasefile.dbschema";
             string password = "password";
             
             string[] args = new[]

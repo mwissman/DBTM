@@ -21,9 +21,9 @@ namespace Tests.Domain
         [Test]
         public void ComposeUpdateSqlReplacesCrossDatabasePlaceHolder()
         {
-            var upgradeSql = new CompiledUpgradeSql("SELECT * FROM [{dbx:RedboxServerDB}]..KioskClient; SELECT * FROM [{dbx:Promotions}]..PromotionCampaigns", "TestBranch_", Guid.Empty, SqlStatementType.PreDeployment, 0, false);
+            var upgradeSql = new CompiledUpgradeSql("SELECT * FROM [{dbx:DatabaseName}]..KioskClient; SELECT * FROM [{dbx:Promotions}]..PromotionCampaigns", "TestBranch_", Guid.Empty, SqlStatementType.PreDeployment, 0, false);
 
-            string expectedUpgradeSql = "SELECT * FROM [TestBranch_RedboxServerDB]..KioskClient; SELECT * FROM [TestBranch_Promotions]..PromotionCampaigns\r\n";
+            string expectedUpgradeSql = "SELECT * FROM [TestBranch_DatabaseName]..KioskClient; SELECT * FROM [TestBranch_Promotions]..PromotionCampaigns\r\n";
 
             Assert.AreEqual(expectedUpgradeSql, upgradeSql.ToString());
         }

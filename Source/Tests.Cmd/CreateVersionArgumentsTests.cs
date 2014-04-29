@@ -9,7 +9,7 @@ namespace Tests.Cmd
         [Test]
         public void ParsesArguments()
         {
-            string databaseFilePath = @"c:\redbox\database\databasefile.dbschema";
+            string databaseFilePath = @"c:\work\database\databasefile.dbschema";
 
             var args = new[] {"-databaseFilePath=" + databaseFilePath};
 

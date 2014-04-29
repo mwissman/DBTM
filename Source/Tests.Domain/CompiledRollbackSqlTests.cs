@@ -11,9 +11,9 @@ namespace Tests.Domain
         [Test]
         public void ComposeRollbackSqlReplacesCrossDatabasePlaceHolder()
         {
-            var rollbackSql = new CompiledRollbackSql("SELECT * FROM [{dbx:RedboxServerDB}]..KioskClient; SELECT * FROM [{dbx:Promotions}]..PromotionCampaigns", "TestBranch_",Guid.Empty,SqlStatementType.PreDeployment, 0, false);
+            var rollbackSql = new CompiledRollbackSql("SELECT * FROM [{dbx:DatabaseName}]..KioskClient; SELECT * FROM [{dbx:Promotions}]..PromotionCampaigns", "TestBranch_",Guid.Empty,SqlStatementType.PreDeployment, 0, false);
 
-            string expectedRollbackSql = "SELECT * FROM [TestBranch_RedboxServerDB]..KioskClient; SELECT * FROM [TestBranch_Promotions]..PromotionCampaigns\r\n";
+            string expectedRollbackSql = "SELECT * FROM [TestBranch_DatabaseName]..KioskClient; SELECT * FROM [TestBranch_Promotions]..PromotionCampaigns\r\n";
 
             Assert.AreEqual(expectedRollbackSql, rollbackSql.ToString());
         }
@@ -21,11 +21,11 @@ namespace Tests.Domain
         [Test]
         public void ComposeRollbackSqlReplacesCrossDatabasePlaceHolderWithVersionHistory()
         {
-            var rollbackSql = new CompiledRollbackSql("SELECT * FROM [{dbx:RedboxServerDB}]..KioskClient; SELECT * FROM [{dbx:Promotions}]..PromotionCampaigns", "TestBranch_", Guid.Empty, SqlStatementType.PreDeployment, 0, true);
+            var rollbackSql = new CompiledRollbackSql("SELECT * FROM [{dbx:DatabaseName}]..KioskClient; SELECT * FROM [{dbx:Promotions}]..PromotionCampaigns", "TestBranch_", Guid.Empty, SqlStatementType.PreDeployment, 0, true);
 
             var expectedRollbackSql = new StringBuilder();
 
-            expectedRollbackSql.AppendFormat("   EXEC ('SELECT * FROM [TestBranch_RedboxServerDB]..KioskClient; SELECT * FROM [TestBranch_Promotions]..PromotionCampaigns');\r\n");
+            expectedRollbackSql.AppendFormat("   EXEC ('SELECT * FROM [TestBranch_DatabaseName]..KioskClient; SELECT * FROM [TestBranch_Promotions]..PromotionCampaigns');\r\n");
             expectedRollbackSql.AppendLine();
             expectedRollbackSql.AppendFormat("    EXECUTE [DBTM].[sp_RecordStatementExecuted] {0},'{1}','{2}','Rollback';\r\n", 0, Guid.Empty, SqlStatementType.PreDeployment.ToString());
 

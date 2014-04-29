@@ -17,7 +17,7 @@ namespace DBTM.Cmd
 *    FullBuild Options                                                                    *
 *       -databaseName=dbName                                                              * 
 *       -server=localhost                                                                 *
-*       -userName=redboxDev                                                               *
+*       -userName=username                                                               *
 *       -password=password                                                                *
 *       -dataFilePath=c:\somewhere\datafile.mdf                                           *
 *       -databaseFilePath=c:\somewhere\somedatabase.dbschema                              *
@@ -33,7 +33,7 @@ namespace DBTM.Cmd
 *    RunDirectory Options                                                                 *
 *       -databaseName=dbName                                                              * 
 *       -server=localhost                                                                 *
-*       -userName=redboxDev                                                               *
+*       -userName=username                                                               *
 *       -password=password                                                                *
 *       -scriptPath=c:\some\directory\path                                                *
 *                                                                                         * 

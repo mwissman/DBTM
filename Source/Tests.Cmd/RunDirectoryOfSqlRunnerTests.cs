@@ -37,7 +37,7 @@ namespace Tests.Cmd
 
             _arguments = MockRepository.GenerateStub<IRunDirectoryOfSqlArguments>();
             _arguments.Stub(x => x.HasRequiredArguments).Return(true);
-            _directoryPath = @"C:\redbox\something";
+            _directoryPath = @"C:\work\something";
             _arguments.Stub(x => x.ScriptDirectoryPath).Return(_directoryPath);
 
 

@@ -10,7 +10,7 @@ namespace Tests.Cmd
         public void ParsesArguments()
         {
             string compileDirectory = "c:\\some\folder";     
-            string databaseFilePath = @"c:\redbox\database\databasefile.dbschema";
+            string databaseFilePath = @"c:\work\database\databasefile.dbschema";
 
             string[] args = new[]{
                                     "-CompiledScriptDirectory=" + compileDirectory,

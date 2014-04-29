@@ -5,7 +5,7 @@ Properties {
 	$solutionConfig="Debug"
 	
 	$solution="DB Transition Manager.sln"
-	$nunitRunnerExe="$base_dir\Source\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe"
+	$nunitRunnerExe="$base_dir\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe"
 }
 
 FormatTaskName (("-"*25) + "[{0}]" + ("-"*25))

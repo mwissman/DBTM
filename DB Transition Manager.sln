@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 		Build\dbtm.ps1 = Build\dbtm.ps1
 		Build\DBTM.snk = Build\DBTM.snk
+		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTM.UI", "Source\DBTM.UI\DBTM.UI.csproj", "{63BF09A2-7A3C-4F16-8B12-1FB9C66B1D99}"
@@ -31,11 +32,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Cmd", "Source\Tests.Cmd\Tests.Cmd.csproj", "{AEFB2839-B44D-47C5-937E-0894916E2D18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Source\Tests\Tests.csproj", "{E009AE1F-D026-40CA-87C5-FADCF14F78FB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{3B67964B-5791-4641-B382-FA1F36FADEFF}"
-	ProjectSection(SolutionItems) = preProject
-		Source\.nuget\packages.config = Source\.nuget\packages.config
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

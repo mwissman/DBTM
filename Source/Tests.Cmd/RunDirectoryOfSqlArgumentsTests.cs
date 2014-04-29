@@ -9,7 +9,7 @@ namespace Tests.Cmd
         [Test]
         public void HasRequiredNeedsAFilePath()
         {
-            string scriptPath = @"c:\redbox\database";
+            string scriptPath = @"c:\work\database";
 
             var args = new[] { "-scriptPath=" + scriptPath };
 
