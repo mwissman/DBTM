@@ -64,6 +64,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Build\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="ApplicationCommandModule.cs" />
     <Compile Include="ApplicationModule.cs" />
     <Compile Include="ApplicationSettings.cs" />

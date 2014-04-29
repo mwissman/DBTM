@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Build\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="InfrastructureModule.cs" />
     <Compile Include="IStreamReader.cs" />
     <Compile Include="IStreamWriter.cs" />

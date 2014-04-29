@@ -63,6 +63,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Build\SolutionInfo.cs">
+      <Link>SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="DatabaseRepository.cs" />
     <Compile Include="DomainModule.cs" />
     <Compile Include="Entities\CompiledDatabaseSql.cs" />
