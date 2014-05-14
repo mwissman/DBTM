@@ -103,6 +103,7 @@
     <Compile Include="SqlFile.cs" />
     <Compile Include="SqlFileList.cs" />
     <Compile Include="SqlFileReader.cs" />
+    <Compile Include="ViewModels\AboutCommand.cs" />
     <Compile Include="Views\ICanOpenDatabasesView.cs" />
     <Compile Include="Views\ICompileVersionView.cs" />
     <Compile Include="Views\IDisplayStatusMessagesView.cs" />

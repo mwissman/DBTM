@@ -111,6 +111,11 @@ namespace DBTM.Application.ViewModels
             get { return _commandFactory.Invoke(typeof(InitializeViewCommand)); }
         }
 
+        public ICommand AboutCommand
+        {
+            get { return _commandFactory.Invoke(typeof(AboutCommand)); }
+        }
+
         public ICommand FullBuildCommand
         {
             get { return _commandFactory.Invoke(typeof(FullBuildCommand)); }

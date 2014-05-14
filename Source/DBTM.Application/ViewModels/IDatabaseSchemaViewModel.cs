@@ -22,6 +22,7 @@ namespace DBTM.Application.ViewModels
         ICommand CompileVersionCommand { get; }
         ICommand CompileAllCommand { get; }
         ICommand InitializeViewCommand { get; }
+        ICommand AboutCommand { get; }
 
     }
 }

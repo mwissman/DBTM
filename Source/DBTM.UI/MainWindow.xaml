@@ -88,6 +88,9 @@
                     <MenuItem Header="_Copy" Command="ApplicationCommands.Copy" InputGestureText="Ctrl+C"/>
                     <MenuItem Header="_Paste" Command="ApplicationCommands.Paste" InputGestureText="Ctrl+V"/>
                 </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="About" Command="{Binding Path=AboutCommand}"></MenuItem>
+                </MenuItem>
             </Menu>
 
             <ToolBarTray>
