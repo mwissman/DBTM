@@ -2,7 +2,7 @@ Properties {
 	$build_dir = Split-Path $psake.build_script_file
 	$base_dir = join-path $build_dir "..\"
 	$testOutputDir = "$base_dir\Source\testsOutput"
-	$solutionConfig="Debug"
+	$solutionConfig= if ($env:solutionConfig) { $env:solutionConfig } else { "Debug" } 
 	
 	$solution="DB Transition Manager.sln"
 	$nunitRunnerExe="$base_dir\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe"
@@ -15,15 +15,15 @@ Task Default -Depends Build
 Task Build -Depends Clean, Compile, UnitTests
 
 Task Compile -Depends Clean {	
-	Write-Host "Building $solution" -ForegroundColor Green
-	Exec { msbuild "$base_dir\$solution" /t:Build /p:Configuration=$solutionConfig /v:quiet} 
+	Write-Host "Building $solution in $solutionConfig mode" -ForegroundColor Green
+	Exec { msbuild "$base_dir\$solution" /t:Build /p:Configuration=$solutionConfig /v:minimal} 
 }
 
 Task Clean {
 	
 	
 	Write-Host "Cleaning $solution" -ForegroundColor Green
-	Exec { msbuild "$base_dir\$solution" /t:Clean /p:Configuration=$solutionConfig /v:quiet } 
+	Exec { msbuild "$base_dir\$solution" /t:Clean /p:Configuration=$solutionConfig /v:minimal } 
 
 	if (test-path $testOutputDir) 
 	{

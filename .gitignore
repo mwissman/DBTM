@@ -6,3 +6,4 @@ bin/
 Source/build/
 Source/testsOutput/
 *.suo
+Source/DBTM.Application/obj/Debug/DBTM.Application.csproj.FileListAbsolute.txt
