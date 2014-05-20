@@ -76,6 +76,10 @@ namespace DBTM.Application
                     As<FullBuildCommand>().
                     InstancePerLifetimeScope();
 
+            builder.Register(c => new AboutCommand(c.Resolve<IMainWindowView>())).
+                    As<AboutCommand>().
+                    InstancePerLifetimeScope();
+
             builder.Register(c => new AddVersionCommand(c.Resolve<IMainWindowView>(),
                                                         c.Resolve<IDatabaseSchemaViewModel>(),
                                                         c.Resolve<IMigrator>())).

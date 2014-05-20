@@ -21,6 +21,7 @@ namespace DBTM.Application.Views
         void UpdateSelectedStatement(SqlStatement sqlStatement);
 
         SqlStatementType SelectedSqlStatementType { get; }
-        
+
+        void ShowAboutDialog();
     }
 }

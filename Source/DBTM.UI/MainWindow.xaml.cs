@@ -36,7 +36,11 @@ namespace DBTM.UI
             DataContext = viewModel;
         }
 
-
+        public void ShowAboutDialog()
+        {
+            var about = new About();
+            about.ShowDialog();
+        }
 
         public SetConnectionStringResult AskUserForConnectionString()
         {
