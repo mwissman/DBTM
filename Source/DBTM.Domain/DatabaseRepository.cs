@@ -21,7 +21,6 @@ namespace DBTM.Domain
             database.Versions.Last().IsEditable = true;
 
             database.Versions.ForEach(v => v.PreDeploymentStatements.SetCanMoveUpDownOnAllStatements());
-            database.Versions.ForEach(v => v.BackfillStatements.SetCanMoveUpDownOnAllStatements());
             database.Versions.ForEach(v => v.PostDeploymentStatements.SetCanMoveUpDownOnAllStatements());
 
             database.MarkAsSaved();

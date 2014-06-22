@@ -63,15 +63,6 @@ namespace DBTM.Application
                               includeHistoryStatements);
 
             CompileStatements(version,
-                              version.BackfillStatements,
-                              compileScriptPath,
-                              databasePrefix,
-                              SqlStatementType.Backfill,
-                              "Backfill.sql",
-                              "BackfillRollback.sql",
-                              includeHistoryStatements);
-
-            CompileStatements(version,
                               version.PostDeploymentStatements,
                               compileScriptPath,
                               databasePrefix,

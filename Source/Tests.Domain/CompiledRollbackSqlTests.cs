@@ -34,7 +34,6 @@ namespace Tests.Domain
 
         [TestCase(SqlStatementType.PreDeployment)]
         [TestCase(SqlStatementType.PostDeployment)]
-        [TestCase(SqlStatementType.Backfill)]
         public void ComposeRollbackSqlCompilesScriptWithVersionHistoryInHistoryModeForAllTypes(SqlStatementType sqlStatementType)
         {
             Guid statementId = Guid.NewGuid();

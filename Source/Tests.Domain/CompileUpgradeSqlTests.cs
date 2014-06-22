@@ -58,25 +58,6 @@ namespace Tests.Domain
 
         }
 
-        [TestCase]
-        public void ComposeUpdateSqlCompilesScriptWithVersionHistoryInHistoryModeForBackfillSqlTypes()
-        {
-            Guid statementId = Guid.NewGuid();
-            int versionNumber = 5;
-            SqlStatementType sqlStatementType = SqlStatementType.Backfill;
-
-            var upgradeSql = new CompiledUpgradeSql("someSql ' with single quote", "", statementId, sqlStatementType, versionNumber, true);
-
-            var expectedSqlBuilder = new StringBuilder();
-
-            expectedSqlBuilder.AppendFormat("    EXEC ('someSql '' with single quote');\r\n");
-            expectedSqlBuilder.AppendLine();
-            expectedSqlBuilder.AppendFormat("    EXECUTE [DBTM].[sp_RecordStatementExecuted] {0},'{1}','{2}','Upgrade';\r\n", versionNumber, statementId, sqlStatementType.ToString());
-
-            Assert.AreEqual(expectedSqlBuilder.ToString(), upgradeSql.ToString());
-
-        }
-
         [Test]
         public void ComposeUpdateSqlCompilesScriptWithoutVersionHistoryInNoHistoryMode()
         {

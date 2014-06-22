@@ -129,7 +129,6 @@
     <Compile Include="SettingsProvider.cs" />
     <Compile Include="SQL\SQLConnectionFactory.cs" />
     <Compile Include="SQL\SqlRunner.cs" />
-    <Compile Include="StatementType.cs" />
     <Compile Include="ViewModels\DatabaseSchemaModelView.cs" />
     <Compile Include="ViewModels\IDatabaseSchemaViewModel.cs" />
   </ItemGroup>

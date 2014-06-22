@@ -183,9 +183,6 @@ namespace DBTM.UI
                 case SqlStatementType.PreDeployment:
                     statementsListBox = lbPreDeploymentStatements;
                     break;
-                case SqlStatementType.Backfill:
-                    statementsListBox = lbBackFillStatements;
-                    break;
                 case SqlStatementType.PostDeployment:
                     statementsListBox = lbPostDeploymentStatements;
                     break;

@@ -14,7 +14,6 @@ namespace DBTM.Domain.Entities
             new Dictionary<SqlStatementType, SqlStatementCollection>()
                 {
                     {SqlStatementType.PreDeployment, new SqlStatementCollection()},
-                    {SqlStatementType.Backfill, new SqlStatementCollection()},
                     {SqlStatementType.PostDeployment, new SqlStatementCollection()},
 
                 };
@@ -50,7 +49,6 @@ namespace DBTM.Domain.Entities
         private void HookupEvents()
         {
             _statements[SqlStatementType.PreDeployment].PropertyChanged += SqlStatementPropertyChanged;
-            _statements[SqlStatementType.Backfill].PropertyChanged += SqlStatementPropertyChanged;
             _statements[SqlStatementType.PostDeployment].PropertyChanged += SqlStatementPropertyChanged;
         }
 
@@ -165,21 +163,6 @@ namespace DBTM.Domain.Entities
         }
         #endregion
 
-        [XmlElement("BackfillSqlStatement")]
-        public virtual SqlStatementCollection BackfillStatements
-        {
-            get { return _statements[SqlStatementType.Backfill]; }
-            set
-            {
-                if (_statements[SqlStatementType.Backfill] != value)
-                {
-                    _statements[SqlStatementType.Backfill].PropertyChanged -= SqlStatementPropertyChanged;
-                    _statements[SqlStatementType.Backfill] = value;
-                    _statements[SqlStatementType.Backfill].PropertyChanged += SqlStatementPropertyChanged;
-                    FirePropertyChangedEvent(x => x.BackfillStatements, true);
-                }
-            }
-        }
 
         [XmlElement("PostDeploymentSqlStatement")]
         public virtual SqlStatementCollection PostDeploymentStatements
@@ -225,7 +208,6 @@ namespace DBTM.Domain.Entities
                     _isEditable = value;
 
                     PreDeploymentStatements.ForEach(s => s.IsEditable = value);
-                    BackfillStatements.ForEach(s => s.IsEditable = value);
                     PostDeploymentStatements.ForEach(s => s.IsEditable = value);
 
                     FirePropertyChangedEvent(x => x.IsEditable, true);
@@ -291,7 +273,6 @@ namespace DBTM.Domain.Entities
         public void MarkAsSaved()
         {
             IsSaved = true;
-            BackfillStatements.MarkAsSaved();
             PreDeploymentStatements.MarkAsSaved();
             PostDeploymentStatements.MarkAsSaved();
         }
@@ -301,7 +282,6 @@ namespace DBTM.Domain.Entities
             get
             {
                 return PreDeploymentStatements.Count > 0 ||
-                       BackfillStatements.Count > 0 ||
                        PostDeploymentStatements.Count > 0;
             }
 

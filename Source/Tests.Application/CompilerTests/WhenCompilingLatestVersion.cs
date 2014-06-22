@@ -19,10 +19,9 @@ namespace Tests.Application.CompilerTests
         private ISqlFileWriter _sqlFileWriter;
         private DatabaseVersion _databaseVersion;
         private SqlStatementCollection _preDeploymentStatments;
-        private SqlStatementCollection _backfillStatements;
         private SqlStatementCollection _postDeploymentStatments;
         private ISqlScriptRepository _sqlScriptRepository;
-        
+
         [SetUp]
         public void Setup()
         {
@@ -33,14 +32,12 @@ namespace Tests.Application.CompilerTests
             _databaseVersion = MockRepository.GenerateMock<DatabaseVersion>(2, DateTime.Now);
 
             _preDeploymentStatments = new SqlStatementCollection();
-            _backfillStatements = new SqlStatementCollection();
             _postDeploymentStatments = new SqlStatementCollection();
 
             _databaseVersion.Stub(dv => dv.PreDeploymentStatements).Return(_preDeploymentStatments);
-            _databaseVersion.Stub(dv => dv.BackfillStatements).Return(_backfillStatements);
             _databaseVersion.Stub(dv => dv.PostDeploymentStatements).Return(_postDeploymentStatments);
             _databaseVersion.Stub(dv => dv.HasStatements).Return(true);
-            _databaseVersion.VersionNumber=2;
+            _databaseVersion.VersionNumber = 2;
             _databaseVersion.IsBaseline = false;
 
             _compiler = new Compiler(_sqlFileWriter, _sqlScriptRepository);
@@ -58,14 +55,14 @@ namespace Tests.Application.CompilerTests
         public void PicksTheMaxVersionToCompile()
         {
             CompiledVersionSql preDeploymentCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
- 
+
             var database = new Database("test");
             database.AddChangeset();
             database.Versions.Add(_databaseVersion);
 
             _preDeploymentStatments.Add(new SqlStatement("", "", ""));
 
-            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment,true)).Return(preDeploymentCompiledSql);
+            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment, true)).Return(preDeploymentCompiledSql);
 
             _compiler.CompileLatestVersion(database, _compiledSqlFolderPath, _databasePrefix);
 
@@ -79,28 +76,28 @@ namespace Tests.Application.CompilerTests
         public void DoesNothingIfVersionHasNoStatements(bool isBaseLine)
         {
             var database = new Database("test");
-            var version=database.AddChangeset();
+            var version = database.AddChangeset();
             version.IsBaseline = isBaseLine;
 
-            _compiler.CompileLatestVersion(database,"","");
+            _compiler.CompileLatestVersion(database, "", "");
 
-            _sqlFileWriter.AssertWasNotCalled(w=>w.Write(Arg<CompiledVersionSql>.Is.Anything,Arg<string>.Is.Anything,Arg<string>.Is.Anything));
+            _sqlFileWriter.AssertWasNotCalled(w => w.Write(Arg<CompiledVersionSql>.Is.Anything, Arg<string>.Is.Anything, Arg<string>.Is.Anything));
         }
 
         [Test]
         public void IncludesDBTMSqlFunctionsIfMaxVersionIsTheBaseLine()
         {
             CompiledVersionSql preDeploymentCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
-            var historySql = new CompiledSql("","");
+            var historySql = new CompiledSql("", "");
 
             var database = new Database("test");
             database.Versions.Add(_databaseVersion);
-            _databaseVersion.Stub(v=>v.IsBaseline).Return(true);
+            _databaseVersion.Stub(v => v.IsBaseline).Return(true);
 
             _preDeploymentStatments.Add(new SqlStatement("", "", ""));
-            
-            _sqlScriptRepository.Expect(r=>r.LoadHistroySql()).Return(historySql);
-            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment,true)).Return(preDeploymentCompiledSql);
+
+            _sqlScriptRepository.Expect(r => r.LoadHistroySql()).Return(historySql);
+            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment, true)).Return(preDeploymentCompiledSql);
 
             _compiler.CompileLatestVersion(database, _compiledSqlFolderPath, _databasePrefix);
 
@@ -117,14 +114,14 @@ namespace Tests.Application.CompilerTests
         public void DoesNotIncludeHistoryWhenDatabaseDoesNotHaveABaselineVersion()
         {
             CompiledVersionSql preDeploymentCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
-          
+
             var database = new Database("test");
             database.Versions.Add(_databaseVersion);
             _databaseVersion.IsBaseline = false;
 
             _preDeploymentStatments.Add(new SqlStatement("", "", ""));
 
-            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment,false)).Return(preDeploymentCompiledSql);
+            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment, false)).Return(preDeploymentCompiledSql);
 
             _compiler.CompileLatestVersion(database, _compiledSqlFolderPath, _databasePrefix);
 
@@ -139,12 +136,12 @@ namespace Tests.Application.CompilerTests
             CompiledVersionSql preDeploymentCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
 
             var database = new Database("test");
-            database.Versions.Add(new DatabaseVersion(1,DateTime.Now){IsBaseline = true});
+            database.Versions.Add(new DatabaseVersion(1, DateTime.Now) { IsBaseline = true });
             database.Versions.Add(_databaseVersion);
             _databaseVersion.IsBaseline = false;
 
             _preDeploymentStatments.Add(new SqlStatement("", "", ""));
-           
+
             _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment, true)).Return(preDeploymentCompiledSql);
 
             _compiler.CompileLatestVersion(database, _compiledSqlFolderPath, _databasePrefix);
@@ -154,21 +151,17 @@ namespace Tests.Application.CompilerTests
                                                  _compiledSqlFolderPath + "\\" + _preDeploymentRollbackPath));
         }
 
-        [TestCase(true, true, true)]
-        [TestCase(false, true, true)]
-        [TestCase(true, false, true)]
-        [TestCase(true, true, false)]
-        [TestCase(true, false, false)]
-        [TestCase(false, true, false)]
-        [TestCase(false, false, true)]
-        public void CompilesBackfillPreAndPostDeploymentScriptsWhenStatementsExist(bool hasPreDeploymentStatements, bool hasBackfillStatements, bool hasPostDeploymentStatements)
+        [TestCase(true, true)]
+        [TestCase(false, true)]
+        [TestCase(true, true)]
+        [TestCase(true, false)]
+        [TestCase(true, false)]
+        [TestCase(false, false)]
+        [TestCase(false, true)]
+        public void CompilesPreAndPostDeploymentScriptsWhenStatementsExist(bool hasPreDeploymentStatements, bool hasPostDeploymentStatements)
         {
             CompiledVersionSql preDeploymentCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
-            CompiledVersionSql backfillCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
             CompiledVersionSql postDeploymentCompiledSql = new CompiledVersionSql(0, SqlStatementType.PreDeployment);
-
-            string backfillUpgradePath = "Backfill.sql";
-            string backfillRollbackPath = "BackfillRollback.sql";
 
             string postDeploymentUpgradePath = "PostDeploymentUpgrade.sql";
             string postDeploymentRollbackPath = "PostDeploymentRollback.sql";
@@ -178,22 +171,14 @@ namespace Tests.Application.CompilerTests
                 _preDeploymentStatments.Add(new SqlStatement("", "", ""));
             }
 
-            if (hasBackfillStatements)
-            {
-                _backfillStatements.Add(new SqlStatement("", "", ""));
-            }
-
             if (hasPostDeploymentStatements)
             {
                 _postDeploymentStatments.Add(new SqlStatement("", "", ""));
             }
 
 
-            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment,false)).
+            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PreDeployment, false)).
                 Return(preDeploymentCompiledSql).Repeat.Times(hasPreDeploymentStatements ? 1 : 0);
-
-            _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.Backfill, false)).
-                Return(backfillCompiledSql).Repeat.Times(hasBackfillStatements ? 1 : 0);
 
             _databaseVersion.Expect(dv => dv.CompileSql(_databasePrefix, SqlStatementType.PostDeployment, false)).
                 Return(postDeploymentCompiledSql).Repeat.Times(hasPostDeploymentStatements ? 1 : 0);
@@ -203,11 +188,6 @@ namespace Tests.Application.CompilerTests
                                                    _compiledSqlFolderPath + "\\" + _preDeploymentUpgradePath,
                                                    _compiledSqlFolderPath + "\\" + _preDeploymentRollbackPath)).
                 Repeat.Times(hasPreDeploymentStatements ? 1 : 0);
-
-            _sqlFileWriter.Expect(sfw => sfw.Write(backfillCompiledSql,
-                                                   _compiledSqlFolderPath + "\\" + backfillUpgradePath,
-                                                   _compiledSqlFolderPath + "\\" + backfillRollbackPath)).
-                Repeat.Times(hasBackfillStatements ? 1 : 0);
 
             _sqlFileWriter.Expect(sfw => sfw.Write(postDeploymentCompiledSql,
                                                    _compiledSqlFolderPath + "\\" + postDeploymentUpgradePath,

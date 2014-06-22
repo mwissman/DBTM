@@ -62,25 +62,15 @@ namespace Tests.Domain
       <UpgradeSQL>{10}</UpgradeSQL>
       <RollbackSQL>{11}</RollbackSQL>
     </PreDeploymentSqlStatement>
-    <BackfillSqlStatement Id=""00000000-0000-0000-0000-000000000000"">
+    <PostDeploymentSqlStatement Id=""00000000-0000-0000-0000-000000000000"">
       <Description>{14}</Description>
       <UpgradeSQL>{15}</UpgradeSQL>
       <RollbackSQL>{16}</RollbackSQL>
-    </BackfillSqlStatement>
-    <BackfillSqlStatement Id=""00000000-0000-0000-0000-000000000000"">
+    </PostDeploymentSqlStatement>
+    <PostDeploymentSqlStatement Id=""00000000-0000-0000-0000-000000000000"">
       <Description>{17}</Description>
       <UpgradeSQL>{18}</UpgradeSQL>
       <RollbackSQL>{19}</RollbackSQL>
-    </BackfillSqlStatement>
-    <PostDeploymentSqlStatement Id=""00000000-0000-0000-0000-000000000000"">
-      <Description>{20}</Description>
-      <UpgradeSQL>{21}</UpgradeSQL>
-      <RollbackSQL>{22}</RollbackSQL>
-    </PostDeploymentSqlStatement>
-    <PostDeploymentSqlStatement Id=""00000000-0000-0000-0000-000000000000"">
-      <Description>{23}</Description>
-      <UpgradeSQL>{24}</UpgradeSQL>
-      <RollbackSQL>{25}</RollbackSQL>
     </PostDeploymentSqlStatement>
   </Version>
 </Database>";
@@ -115,12 +105,12 @@ namespace Tests.Domain
             DatabaseVersion databaseVersion = new DatabaseVersion(versionId, _now) { PreDeploymentStatements = (sqlStatements) };
 
             objToSerialize.Versions = new DatabaseVersionCollection { databaseVersion };
-            
-            XmlSerializer serializer = new XmlSerializer(typeof (Database));
 
-           
-            string expectedSerializedXml = string.Format(EXPECTED_FORMAT_WITH_1_VERSION, _dbName, versionId, description, statement, rollbackStatement,_now.ToString("s"));
-            
+            XmlSerializer serializer = new XmlSerializer(typeof(Database));
+
+
+            string expectedSerializedXml = string.Format(EXPECTED_FORMAT_WITH_1_VERSION, _dbName, versionId, description, statement, rollbackStatement, _now.ToString("s"));
+
             MemoryStream memoryStream = new MemoryStream();
             serializer.Serialize(memoryStream, objToSerialize);
 
@@ -128,7 +118,7 @@ namespace Tests.Domain
 
             StreamReader reader = new StreamReader(memoryStream);
             var actual = reader.ReadToEnd();
-           
+
             Assert.AreEqual(RemoveAllNamespaces(expectedSerializedXml), RemoveAllNamespaces(actual));
         }
 
@@ -136,7 +126,7 @@ namespace Tests.Domain
         [Explicit]
         public void Deserialization()
         {
-            XmlSerializer serializer = new XmlSerializer(typeof (Database));
+            XmlSerializer serializer = new XmlSerializer(typeof(Database));
             //serializer.UnknownElement += new XmlElementEventHandler(serializer_UnknownElement);
             object databaseObj = serializer.Deserialize(
                 new StreamReader(@"C:\Work\CorpSystems\root\hive\trunk\DatabaseFiles\KioskManagement.dbschema"));
@@ -166,12 +156,12 @@ namespace Tests.Domain
                                                         new SqlStatement(description2,statement2, rollbackStatement2){Id = Guid.Empty}
                                                     };
 
-            objToSerialize.Versions = new DatabaseVersionCollection { new DatabaseVersion(versionId,_now) { PreDeploymentStatements = sqlStatements } };
+            objToSerialize.Versions = new DatabaseVersionCollection { new DatabaseVersion(versionId, _now) { PreDeploymentStatements = sqlStatements } };
 
             XmlSerializer serializer = new XmlSerializer(typeof(Database));
 
             string expectedSerializedXml = string.Format(EXPECTED_FORMAT_WITH_MULTIPLE_STATEMENTS_IN_A_VERSION, _dbName,
-                                                         versionId, description, statement, rollbackStatement, description2, statement2, rollbackStatement2,_now.ToString("s"));
+                                                         versionId, description, statement, rollbackStatement, description2, statement2, rollbackStatement2, _now.ToString("s"));
 
             MemoryStream memoryStream = new MemoryStream();
             serializer.Serialize(memoryStream, objToSerialize);
@@ -180,7 +170,7 @@ namespace Tests.Domain
 
             StreamReader reader = new StreamReader(memoryStream);
             var actual = reader.ReadToEnd();
-           
+
             Assert.AreEqual(RemoveAllNamespaces(expectedSerializedXml), RemoveAllNamespaces(actual));
         }
 
@@ -190,16 +180,12 @@ namespace Tests.Domain
             string statement = "blah";
             string statement2 = "blah2";
             string statement3 = "blah3";
-            string statement4 = "blah4";
-            string statement5 = "blah5";
             string statement6 = "blah6";
             string statement7 = "blah7";
-            
+
             string rollbackStatement = "blahblah";
             string rollbackStatement2 = "blahblah2";
             string rollbackStatement3 = "blahblah3";
-            string rollbackStatement4 = "blahblah4";
-            string rollbackStatement5 = "blahblah5";
             string rollbackStatement6 = "blahblah6";
             string rollbackStatement7 = "blahblah7";
 
@@ -211,8 +197,6 @@ namespace Tests.Domain
             var description = "description";
             var description2 = "description2";
             var description3 = "description3";
-            var description4 = "description4";
-            var description5 = "description5";
             var description6 = "description6";
             var description7 = "description7";
 
@@ -225,11 +209,6 @@ namespace Tests.Domain
                                                     {
                                                         new SqlStatement(description3, statement3, rollbackStatement3){Id = Guid.Empty}
                                                     };
-            SqlStatementCollection sqlStatements3 = new SqlStatementCollection()
-                                                        {
-                                                            new SqlStatement(description4,statement4,rollbackStatement4){Id = Guid.Empty},
-                                                            new SqlStatement(description5,statement5,rollbackStatement5){Id = Guid.Empty},
-                                                        };
 
             SqlStatementCollection sqlStatements4 = new SqlStatementCollection()
                                                         {
@@ -243,7 +222,6 @@ namespace Tests.Domain
                                               new DatabaseVersion(versionId2, _now)
                                                   {
                                                       PreDeploymentStatements = sqlStatements2,
-                                                      BackfillStatements = sqlStatements3,
                                                       PostDeploymentStatements = sqlStatements4
                                                   }
                                           };
@@ -264,12 +242,6 @@ namespace Tests.Domain
                                                          rollbackStatement3,
                                                          _now.ToString("s"),
                                                          _now.ToString("s"),
-                                                         description4,
-                                                         statement4,
-                                                         rollbackStatement4,
-                                                         description5,
-                                                         statement5,
-                                                         rollbackStatement5,
                                                          description6,
                                                          statement6,
                                                          rollbackStatement6,
@@ -285,7 +257,7 @@ namespace Tests.Domain
 
             StreamReader reader = new StreamReader(memoryStream);
             var actual = reader.ReadToEnd();
-           
+
             Assert.AreEqual(RemoveAllNamespaces(expectedSerializedXml), RemoveAllNamespaces(actual));
         }
 

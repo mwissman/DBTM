@@ -45,11 +45,6 @@ namespace Tests.Domain
                                                                     {
                                                                         new SqlStatement("1", "", "")
                                                                     },
-                                                            BackfillStatements =
-                                                                new SqlStatementCollection()
-                                                                    {
-                                                                        new SqlStatement("1", "", "")
-                                                                    },
                                                             PostDeploymentStatements =
                                                                 new SqlStatementCollection()
                                                                     {
@@ -59,13 +54,6 @@ namespace Tests.Domain
                                                     new DatabaseVersion(2, DateTime.Now)
                                                         {
                                                             PreDeploymentStatements =
-                                                                new SqlStatementCollection()
-                                                                    {
-                                                                        new SqlStatement("1", "", ""),
-                                                                        new SqlStatement("2", "", ""),
-                                                                        new SqlStatement("3", "", "")
-                                                                    },
-                                                            BackfillStatements =
                                                                 new SqlStatementCollection()
                                                                     {
                                                                         new SqlStatement("1", "", ""),
@@ -95,7 +83,6 @@ namespace Tests.Domain
             Assert.IsTrue(lastDatabaseVersion.IsEditable);
 
             VerifyPreDeploymentStatements(firstDatabaseVersion, lastDatabaseVersion);
-            VerifyBackfillStatements(firstDatabaseVersion, lastDatabaseVersion);
             VerifyPostDeployementScripts(firstDatabaseVersion, lastDatabaseVersion);
 
             deserializedDatabase.VerifyAllExpectations();
@@ -105,29 +92,6 @@ namespace Tests.Domain
         {
             SqlStatementCollection firstDatabaseVersionStatements = firstDatabaseVersion.PreDeploymentStatements;
             SqlStatementCollection lastDatabaseVersionStatements = lastDatabaseVersion.PreDeploymentStatements;
-
-            Assert.AreEqual(1, firstDatabaseVersionStatements.Count);
-            Assert.IsFalse(firstDatabaseVersionStatements.First().CanMoveDown);
-            Assert.IsFalse(firstDatabaseVersionStatements.First().CanMoveUp);
-            Assert.IsFalse(firstDatabaseVersionStatements.First().IsEditable);
-
-            Assert.AreEqual(3, lastDatabaseVersionStatements.Count);
-            Assert.IsTrue(lastDatabaseVersionStatements.First().CanMoveDown);
-            Assert.IsFalse(lastDatabaseVersionStatements.First().CanMoveUp);
-            Assert.IsTrue(lastDatabaseVersionStatements.First().IsEditable);
-
-            Assert.IsFalse(lastDatabaseVersionStatements.Last().CanMoveDown);
-            Assert.IsTrue(lastDatabaseVersionStatements.Last().CanMoveUp);
-            Assert.IsTrue(lastDatabaseVersionStatements.Last().IsEditable);
-
-            Assert.IsTrue(lastDatabaseVersionStatements.Where(s => s.Description == "2").Single().CanMoveDown);
-            Assert.IsTrue(lastDatabaseVersionStatements.Where(s => s.Description == "2").Single().CanMoveUp);
-        }
-
-        private void VerifyBackfillStatements(DatabaseVersion firstDatabaseVersion, DatabaseVersion lastDatabaseVersion)
-        {
-            SqlStatementCollection firstDatabaseVersionStatements = firstDatabaseVersion.BackfillStatements;
-            SqlStatementCollection lastDatabaseVersionStatements = lastDatabaseVersion.BackfillStatements;
 
             Assert.AreEqual(1, firstDatabaseVersionStatements.Count);
             Assert.IsFalse(firstDatabaseVersionStatements.First().CanMoveDown);

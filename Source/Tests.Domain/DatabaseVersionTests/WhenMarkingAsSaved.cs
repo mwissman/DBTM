@@ -35,19 +35,6 @@ namespace Tests.Domain.DatabaseVersionTests
                 CollectionAssert.Contains(propertiesChanged, ((Expression<Func<DatabaseVersion, object>>)(x => x.Description)).GetMemberName());
             }
 
-            [Test]
-            public void IsSavedIsSetToFalseWhenBackfillStatementsBecomesNotSaved()
-            {
-                DatabaseVersion version = new DatabaseVersion(1, DateTime.Now)
-                {
-                    BackfillStatements = new SqlStatementCollection(),
-                };
-
-                version.MarkAsSaved();
-                Assert.IsTrue(version.IsSaved);
-                version.BackfillStatements.Add(new SqlStatement("", "", ""));
-                Assert.IsFalse(version.IsSaved);
-            }
 
             [Test]
             public void IsSavedIsSetToFalseWhenPreDeploymentStatementsBecomesNotSaved()
@@ -81,19 +68,16 @@ namespace Tests.Domain.DatabaseVersionTests
             public void MarkAsSavedCascadesToAllCollections()
             {
                 DatabaseVersion version = new DatabaseVersion(2, DateTime.Now);
-                version.BackfillStatements.Add(new SqlStatement("", "", ""));
                 version.PreDeploymentStatements.Add(new SqlStatement("", "", ""));
                 version.PostDeploymentStatements.Add(new SqlStatement("", "", ""));
 
                 Assert.IsFalse(version.IsSaved);
-                Assert.IsFalse(version.BackfillStatements.IsSaved);
                 Assert.IsFalse(version.PreDeploymentStatements.IsSaved);
                 Assert.IsFalse(version.PostDeploymentStatements.IsSaved);
 
                 version.MarkAsSaved();
 
                 Assert.IsTrue(version.IsSaved);
-                Assert.IsTrue(version.BackfillStatements.IsSaved);
                 Assert.IsTrue(version.PreDeploymentStatements.IsSaved);
                 Assert.IsTrue(version.PostDeploymentStatements.IsSaved);
             }

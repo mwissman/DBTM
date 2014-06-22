@@ -19,7 +19,6 @@ namespace DBTM.Domain
             database.Versions.ForEach(v =>
                 {
                     FillInMissingIds(v.PreDeploymentStatements);
-                    FillInMissingIds(v.BackfillStatements);
                     FillInMissingIds(v.PostDeploymentStatements);
                 });
         }

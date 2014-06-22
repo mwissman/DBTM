@@ -39,9 +39,6 @@ namespace DBTM.Application.Commands
                 case SqlStatementType.PreDeployment:
                     statements = databaseVersion.PreDeploymentStatements;
                     break;
-                case SqlStatementType.Backfill:
-                    statements = databaseVersion.BackfillStatements;
-                    break;
                 case SqlStatementType.PostDeployment:
                     statements = databaseVersion.PostDeploymentStatements;
                     break;

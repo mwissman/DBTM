@@ -56,7 +56,7 @@ namespace Tests.Application.Commands
         }
        
         [Test]
-        public void PromptsForBackfillPreAndPostDeploymentScriptsWhenStatementsExistForAll()
+        public void PromptsForPreAndPostDeploymentScriptsWhenStatementsExistForAll()
         {
             string compiledSqlFolderPath = "c:\\folder\\path";
             string databasePrefix = "DatabasePrefix_";

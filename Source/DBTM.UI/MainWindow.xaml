@@ -296,23 +296,7 @@
                                     </ListBox>
 
                                 </UI:SqlStatementTabItem>
-                                <UI:SqlStatementTabItem Header="Backfill" DataContext="{Binding ElementName=lbBackFillStatements}" StatementType="Backfill" Visibility="Hidden" Width="0" Margin="0,0,0,0">
-
-                                    <ListBox Name="lbBackFillStatements" BorderThickness="1" Margin="10,10,10,10" Width="230" Height="350" SelectionMode="Single"
-                                 HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top"
-                                 DataContext="{Binding ElementName=lbVersions, Path=SelectedItem}" 
-                                 ItemsSource="{Binding Path=BackfillStatements}">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel>
-                                                    <TextBlock Text="{Binding Path=Description}" />
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-
-                                </UI:SqlStatementTabItem>
-                                <UI:SqlStatementTabItem Header="Post App Deployment" DataContext="{Binding ElementName=lbPostDeploymentStatements}" StatementType="PostDeployment">
+                               <UI:SqlStatementTabItem Header="Post App Deployment" DataContext="{Binding ElementName=lbPostDeploymentStatements}" StatementType="PostDeployment">
 
                                     <ListBox Name="lbPostDeploymentStatements" BorderThickness="1" Margin="10,10,10,10" Width="230" Height="350" SelectionMode="Single"
                                  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" VerticalAlignment="Top"

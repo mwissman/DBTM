@@ -40,8 +40,7 @@ namespace Tests.Domain
             var version1 = database.AddChangeset();
             var sqlStatement1 = new SqlStatement("a", "b", "c"){Id = Guid.Empty};
             var sqlStatement2 = new SqlStatement("a", "b", "c") { Id = Guid.Empty };
-            var sqlStatement3 = new SqlStatement("a", "b", "c") { Id = Guid.Empty };
-            var sqlStatement4 = new SqlStatement("a", "b", "c") { Id = Guid.Empty };
+          
             var sqlStatement5 = new SqlStatement("a", "b", "c") { Id = Guid.Empty };
             var sqlStatement6 = new SqlStatement("a", "b", "c") { Id = Guid.Empty };
             var sqlStatement7 = new SqlStatement("a", "b", "c") { Id = Guid.Empty };
@@ -49,9 +48,6 @@ namespace Tests.Domain
 
             version1.PreDeploymentStatements.Add(sqlStatement1);
             version1.PreDeploymentStatements.Add(sqlStatement2);
-
-            version1.BackfillStatements.Add(sqlStatement3);
-            version1.BackfillStatements.Add(sqlStatement4);
 
             version1.PostDeploymentStatements.Add(sqlStatement5);
             version1.PostDeploymentStatements.Add(sqlStatement6);
@@ -65,8 +61,6 @@ namespace Tests.Domain
 
             Assert.AreEqual(sqlStatement1.Id,guid);
             Assert.AreEqual(sqlStatement2.Id,guid);
-            Assert.AreEqual(sqlStatement3.Id,guid);
-            Assert.AreEqual(sqlStatement4.Id,guid);
             Assert.AreEqual(sqlStatement5.Id,guid);
             Assert.AreEqual(sqlStatement6.Id,guid);
             Assert.AreEqual(sqlStatement7.Id,guid);

@@ -48,18 +48,6 @@ namespace Tests.Application.Commands
         }
 
         [Test]
-        public void CreatesANewStatementAndSelectsItWhenValidVersionGivenForBackfill()
-        {
-            _databaseVersion.Stub(dv => dv.BackfillStatements).Return(_sqlStatementCollection);
-            _sqlStatementCollection.Expect(c => c.Add(Arg<SqlStatement>.Matches(s => s.IsEditable == true && s.Description == "" && s.RollbackSQL == "" && s.UpgradeSQL == "")));
-            _sqlStatementCollection.Expect(c => c.SetCanMoveUpDownOnAllStatements());
-            _view.Expect(v => v.SelectedSqlStatementType).Return(SqlStatementType.Backfill);
-            _view.Expect(v => v.UpdateSelectedStatement(Arg<SqlStatement>.Matches(s => s.IsEditable == true && s.Description == "" && s.RollbackSQL == "" && s.UpgradeSQL == "")));
-
-            _command.Execute(_databaseVersion);
-        }
-
-        [Test]
         public void CreatesANewStatementAndSelectsItWhenValidVersionGivenForPostDeployment()
         {
             _databaseVersion.Stub(dv => dv.PostDeploymentStatements).Return(_sqlStatementCollection);

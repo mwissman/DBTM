@@ -20,7 +20,7 @@ namespace Tests.Domain.DatabaseVersionTests
             }
 
             [Test]
-            public void HasStatementsIsFalseWhenNoStatementsExistInPrePostAndBackfill()
+            public void HasStatementsIsFalseWhenNoStatementsExistInPrePost()
             {
                 Assert.IsFalse(_databaseVersion.HasStatements);
             }
@@ -29,14 +29,6 @@ namespace Tests.Domain.DatabaseVersionTests
             public void HasStatemensIsTrueIfVersionHasAPreDeploymentStatement()
             {
                 _databaseVersion.PreDeploymentStatements.Add(new SqlStatement("","",""));
-
-                Assert.IsTrue(_databaseVersion.HasStatements);
-            }
-
-            [Test]
-            public void HasStatemensIsTrueIfVersionHasABackfillStatement()
-            {
-                _databaseVersion.BackfillStatements.Add(new SqlStatement("", "", ""));
 
                 Assert.IsTrue(_databaseVersion.HasStatements);
             }

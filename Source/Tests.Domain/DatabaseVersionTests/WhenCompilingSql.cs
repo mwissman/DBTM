@@ -131,44 +131,10 @@ GO
 
 ----------------------------------------------------------------
 ";
-            private string EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_BACKFILL_UPGRADE_WITH_HISTORY = @"
-
-    EXEC ('{0}');
-
-    EXECUTE [DBTM].[sp_RecordStatementExecuted] 2,'{2}','Backfill','Upgrade';
-GO
-
-----------------------------------------------------------------
-
-    EXEC ('{1}');
-
-    EXECUTE [DBTM].[sp_RecordStatementExecuted] 2,'{3}','Backfill','Upgrade';
-GO
-
-----------------------------------------------------------------
-";
-
-            private string EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_BACKFILL_ROLLBACK_WITH_HISTORY = @"
-
-   EXEC ('{1}');
-
-    EXECUTE [DBTM].[sp_RecordStatementExecuted] 2,'{3}','Backfill','Rollback';
-GO
-
-----------------------------------------------------------------
-
-   EXEC ('{0}');
-
-    EXECUTE [DBTM].[sp_RecordStatementExecuted] 2,'{2}','Backfill','Rollback';
-GO
-
-----------------------------------------------------------------
-";
 
             #endregion 
 
             [TestCase(SqlStatementType.PreDeployment)]
-            [TestCase(SqlStatementType.Backfill)]
             [TestCase(SqlStatementType.PostDeployment)]
             public void CompileSqlCombinesAllStatementsInOrderUpgradeAscendingRollBackDescendingDoesNotIncludeHistory(SqlStatementType sqlStatementType)
             {
@@ -280,59 +246,6 @@ GO
                 sqlStatement3.VerifyAllExpectations();
             }
 
-            [Test]
-            public void BackfillStatementsAreJustRecorded()
-            {
-                string databasePrefix = "databasePrefix_";
-
-                var versionId = 2;
-                DatabaseVersion databaseVersion = new DatabaseVersion(versionId, DateTime.Now);
-
-                var upgradeSql1 = "some sql ' 1";
-                var rollbackSql1 = "some other ' sql";
-                Guid statement1Id = Guid.NewGuid();
-
-                var upgradeSql2 = "some sql \r\n2";
-                var rollbackSql2 = string.Empty;
-                Guid statement2Id = Guid.NewGuid();
-
-  
-
-                SqlStatement sqlStatement1 = MockRepository.GenerateMock<SqlStatement>("desc1", upgradeSql1, rollbackSql1);
-                sqlStatement1.Stub(s => s.Id).Return(statement1Id);
-                sqlStatement1.Stub(s => s.UpgradeSQL).Return(upgradeSql1);
-                sqlStatement1.Stub(s => s.RollbackSQL).Return(rollbackSql1);
-
-                SqlStatement sqlStatement2 = MockRepository.GenerateMock<SqlStatement>("desc2", upgradeSql2, rollbackSql2);
-                sqlStatement2.Stub(s => s.Id).Return(statement2Id);
-                sqlStatement2.Stub(s => s.UpgradeSQL).Return(upgradeSql2);
-                sqlStatement2.Stub(s => s.RollbackSQL).Return(rollbackSql2);
-
-                var sqlStatementType = SqlStatementType.Backfill;
-                SqlStatementCollection statements = GetStatements(sqlStatementType, databaseVersion);
-
-                statements.Add(sqlStatement1);
-                statements.Add(sqlStatement2);
-               
-
-                var actualSql = databaseVersion.CompileSql(databasePrefix, sqlStatementType, true);
-
-                string expectedUpgrade =
-                    string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
-                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_BACKFILL_UPGRADE_WITH_HISTORY, upgradeSql1.Replace("'", "''"), upgradeSql2.Replace("'", "''"), statement1Id, statement2Id);
-
-                string expectedRollback =
-                    string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
-                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_BACKFILL_ROLLBACK_WITH_HISTORY, rollbackSql1.Replace("'", "''"), rollbackSql2.Replace("'", "''"), statement1Id, statement2Id);
-
-                Assert.AreEqual(expectedUpgrade, actualSql.Upgrade.ToString());
-                Assert.AreEqual(expectedRollback, actualSql.Rollback.ToString());
-
-                sqlStatement1.VerifyAllExpectations();
-                sqlStatement2.VerifyAllExpectations();
-            }
-
-
             private SqlStatementCollection GetStatements(SqlStatementType sqlStatementType, DatabaseVersion databaseVersion)
             {
                 SqlStatementCollection statements;
@@ -341,9 +254,6 @@ GO
                 {
                     case SqlStatementType.PreDeployment:
                         statements = databaseVersion.PreDeploymentStatements;
-                        break;
-                    case SqlStatementType.Backfill:
-                        statements = databaseVersion.BackfillStatements;
                         break;
                     case SqlStatementType.PostDeployment:
                         statements = databaseVersion.PostDeploymentStatements;
