@@ -8,36 +8,30 @@ namespace DBTM.Cmd
     class Program
     {
         private const string EXPECTED_COMMAND_LINE_USAGE = @"
-+*****************************************************************************************+
-*                                                                                         *
-* DBTM Command Line Usage                                                                 *
-*                                                                                         *
-* DBTM.exe [-command=FullBuild|CreateVersion|CompileScripts|RunDirectory] [options]       *
-*                                                                                         * 
-*    FullBuild Options                                                                    *
-*       -databaseName=dbName                                                              * 
-*       -server=localhost                                                                 *
-*       -userName=username                                                               *
-*       -password=password                                                                *
-*       -dataFilePath=c:\somewhere\datafile.mdf                                           *
-*       -databaseFilePath=c:\somewhere\somedatabase.dbschema                              *
-*       [-crossDatabaseNamePrefix=DBPrefix_]                                              *
-*                                                                                         *
-*    CreateVersion Options                                                                *
-*       -databaseFilePath=c:\somewhere\somedatabase.dbschema                              *
-*                                                                                         *
-*    CompileScripts Options                                                               *
-*       -databaseFilePath=c:\somewhere\somedatabase.dbschema                              *
-*       -compiledScriptDirectory=c:\somewhere\sql\                                        *
-*                                                                                         *
-*    RunDirectory Options                                                                 *
-*       -databaseName=dbName                                                              * 
-*       -server=localhost                                                                 *
-*       -userName=username                                                               *
-*       -password=password                                                                *
-*       -scriptPath=c:\some\directory\path                                                *
-*                                                                                         * 
-+*****************************************************************************************+
++*****************************************************************************+
+*                                                                             *
+* DBTM Command Line Usage                                                     *
+*                                                                             *
+* DBTM.exe [-command=FullBuild|CreateVersion|CompileScripts] [options]        *
+*                                                                             *
+*    FullBuild Options                                                        *
+*       -databaseName=dbName                                                  *
+*       -server=localhost                                                     *
+*       -userName=username                                                    *
+*       -password=password                                                    *
+*       -dataFilePath=c:\somewhere\datafile.mdf                               *
+*       -databaseFilePath=c:\somewhere\somedatabase.dbschema                  *
+*       [-crossDatabaseNamePrefix=DBPrefix_]                                  *
+*                                                                             *
+*    CreateVersion Options                                                    *
+*       -databaseFilePath=c:\somewhere\somedatabase.dbschema                  *
+*                                                                             *
+*    CompileScripts Options                                                   *
+*       -databaseFilePath=c:\somewhere\somedatabase.dbschema                  *
+*       -compiledScriptDirectory=c:\somewhere\sql\                            *
+*                                                                             *
+*                                                                             *
++*****************************************************************************+
 ";
 
         static void Main(string[] args)
