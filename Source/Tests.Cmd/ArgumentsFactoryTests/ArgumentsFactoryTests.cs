@@ -26,7 +26,6 @@ namespace Tests.Cmd.ArgumentsFactoryTests
             [TestCase("", typeof(FullBuildArguments))]
             [TestCase("-command=createversion", typeof(CreateVersionArguments))]
             [TestCase("-command=compilescripts", typeof(CompileScriptsArguments))]
-            [TestCase("-command=RunDirectory", typeof(RunDirectoryOfSqlArguments))]
             public void ProperArguementsClassIsReturnBasedOnCommandLine(string commandString, Type expectedType)
             {
                 _arguments[1] = commandString;

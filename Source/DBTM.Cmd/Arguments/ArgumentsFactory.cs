@@ -7,7 +7,6 @@ namespace DBTM.Cmd.Arguments
         private const string COMMAND_ARGUMENT = "COMMAND";
         private const string CREATE_VERSION_COMMAND = "CREATEVERSION";
         private const string COMPILE_SCRIPTS_COMMAND = "COMPILESCRIPTS";
-        private const string RUN_DIRECTORY_OF_SQL_COMMAND = "RUNDIRECTORY";
         private const string FULLBUILD_COMMAND = "FULLBUILD";
 
         public IArguments Create(string[] arguments)
@@ -30,12 +29,6 @@ namespace DBTM.Cmd.Arguments
                 {
                     return new CompileScriptsArguments(arguments);
                 }
-
-                if (command.Equals(RUN_DIRECTORY_OF_SQL_COMMAND, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    return new RunDirectoryOfSqlArguments(arguments);
-                }
-
                 throw new ArgumentException("Unknown Command: {0}", command);
             }
 
@@ -43,8 +36,4 @@ namespace DBTM.Cmd.Arguments
             return new FullBuildArguments(arguments);
         }
     }
-
-
-
-
 }

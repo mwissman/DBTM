@@ -85,8 +85,6 @@
     <Compile Include="Arguments\ICompileScriptsArguments.cs" />
     <Compile Include="Arguments\ICreateVersionArguments.cs" />
     <Compile Include="Arguments\IFullBuildArguments.cs" />
-    <Compile Include="Arguments\IRunDirectoryOfSqlArguments.cs" />
-    <Compile Include="Arguments\RunDirectoryOfSqlArguments.cs" />
     <Compile Include="Runners\ApplicationRunnerResult.cs" />
     <Compile Include="Runners\CompileScriptsApplicationRunner.cs" />
     <Compile Include="Runners\CreateVersionApplicationRunner.cs" />
@@ -102,8 +100,6 @@
     <Compile Include="ISqlServerDatabaseSettingsBuilder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runners\IRunDirectoryOfSqlRunner.cs" />
-    <Compile Include="Runners\RunDirectoryOfSqlRunner.cs" />
     <Compile Include="SqlServerDatabaseSettingsBuilder.cs" />
     <Compile Include="Views\CommandLineCompileVersionView.cs" />
   </ItemGroup>

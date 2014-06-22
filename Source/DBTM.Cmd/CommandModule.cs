@@ -33,17 +33,9 @@ namespace DBTM.Cmd
                 .As<IArguments>()
                 .SingleInstance();
 
-
             builder.Register(c => c.Resolve<IArguments>() as ICompileScriptsArguments).As<ICompileScriptsArguments>();
-
             builder.Register(c => c.Resolve<IArguments>() as ICreateVersionArguments).As<ICreateVersionArguments>();
-
             builder.Register(c => c.Resolve<IArguments>() as IFullBuildArguments).As<IFullBuildArguments>();
-
-            builder.Register(c => c.Resolve<IArguments>() as IRunDirectoryOfSqlArguments).As<IRunDirectoryOfSqlArguments>();
-
-       
-
             builder.Register<Func<string[], IArguments>>(c=>a=>new ArgumentsFactory().Create(a));
 
             builder.Register(c => new FullBuildApplicationRunner(c.Resolve<IDatabaseRepository>(),
@@ -55,16 +47,6 @@ namespace DBTM.Cmd
             builder.Register(c => new CompileScriptsApplicationRunner(c.Resolve<IDatabaseRepository>(), c.Resolve<CompileVersionCommand>()))
                 .As<IApplicationRunner<ICompileScriptsArguments>>()
                 .SingleInstance();
-
-            builder.Register(
-                c =>
-                new RunDirectoryOfSqlRunner(c.Resolve<ISqlRunner>(),
-                    c.Resolve<ISqlServerDatabaseSettingsBuilder>(),
-                    c.Resolve<ISqlFileReader>()
-                    ))
-                .As<IApplicationRunner<IRunDirectoryOfSqlArguments>>()
-                .SingleInstance();
-
 
             builder.Register(c => new CreateVersionApplicationRunner(c.Resolve<IDatabaseRepository>(), c.Resolve<IMigrator>()))
                 .As<IApplicationRunner<ICreateVersionArguments>>()
