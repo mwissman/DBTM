@@ -63,5 +63,22 @@ namespace Tests.Application
         }
     }
 
+    [TestFixture]
+    public class AuthenticationTests
+    {
+        [Test]
+        public void UsernameAndPasswordToConnectionStringFragment()
+        {
+            UsernamePassword auth=new UsernamePassword("user","passowrd");
+            Assert.AreEqual("User Id=user;Password=passowrd;", auth.ToConnectionStringFragment());
+        }
+
+        [Test]
+        public void UserAuthToConnectionStringFragment()
+        {
+            WindowsAuth auth = new WindowsAuth();
+            Assert.AreEqual("Trusted_Connection=Yes;", auth.ToConnectionStringFragment());
+        }
+    }
    
 }

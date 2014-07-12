@@ -31,4 +31,12 @@ namespace DBTM.Application
             return string.Format("User Id={0};Password={1};", _username, _password);
         }
     }
+
+    public class WindowsAuth : IAuthenticantion
+    {
+        public string ToConnectionStringFragment()
+        {
+            return "Trusted_Connection=Yes;";
+        }
+    }
 }
