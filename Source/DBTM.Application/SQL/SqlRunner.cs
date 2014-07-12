@@ -62,6 +62,13 @@ namespace DBTM.Application.SQL
                 string connectionString = connection.ConnectionString;
                 connection.Close();
                 connection.Dispose();
+
+                if (ex.Message.StartsWith("Directory lookup for the file"))
+                {
+                    string missingDiretory = ex.Message.Split(new []{"\r\n"},StringSplitOptions.RemoveEmptyEntries)[0];
+                    throw new SqlCommandDirectoryNotFoundException(missingDiretory);
+                }
+
                 throw new SqlCommandException(commandText, connectionString, ex.Message, ex);
             }
         }

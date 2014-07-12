@@ -14,4 +14,11 @@ namespace DBTM.Application.SQL
             ConnectionString = connectionString;
         }
     }
+
+    public class SqlCommandDirectoryNotFoundException : Exception
+    {
+        public SqlCommandDirectoryNotFoundException(string message) : base(message)
+        {
+        }
+    }
 }

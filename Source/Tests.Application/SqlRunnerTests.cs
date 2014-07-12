@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using DBTM.Application.Factories;
 using DBTM.Application.SQL;
 using DBTM.Domain.Entities;
@@ -78,7 +79,7 @@ namespace Tests.Application
 
             var statement1 = "statement1";
 
-            var compiledSql = new CompiledSql(statement1,"rollback");
+            var compiledSql = new CompiledSql(statement1, "rollback");
 
             _connectionFactory.Expect(cf => cf.Create(connectionString)).Return(_dbConnection);
 
@@ -88,7 +89,7 @@ namespace Tests.Application
             _command.Expect(c => c.ExecuteNonQuery()).Return(1).Repeat.Times(1);
 
             _dbCommandFactory.Expect(cf => cf.Create(statement1)).Return(_command);
-           
+
             _dbConnection.Expect(d => d.Close());
             _dbConnection.Expect(d => d.Dispose());
 
@@ -252,13 +253,37 @@ namespace Tests.Application
 
             _runner.RunAdminScripts(sqlStatements, connectionString);
         }
+        [Test]
+        public void RunAdminScriptThrowsDirectoryNotFoundWhenSqlExceptionIndicatesDirectoryNotFound()
+        {
+
+            string connectionString = "some connection string";
+
+            var statement1 = "statement1";
+
+            List<string> sqlStatements = new List<string> { statement1 };
+
+            _connectionFactory.Expect(cf => cf.Create(connectionString)).Return(_dbConnection);
+
+            _dbConnection.Expect(d => d.Open());
+
+            _dbCommandFactory.Expect(cf => cf.Create(statement1)).Return(_command);
+            _command.Expect(c => c.Connection = _dbConnection);
+            _command.Expect(c => c.ExecuteNonQuery()).Throw(new Exception("Directory lookup for the file \"C:\\databases\\foo\\Database2_Data.mdf\" failed with the operating system error 2(The system cannot find the file specified.).\r\nCREATE DATABASE failed. Some file names listed could not be created. Check related errors...."));
+
+            _dbConnection.Expect(d => d.Close());
+            _dbConnection.Expect(d => d.Dispose());
+
+            Assert.Throws<SqlCommandDirectoryNotFoundException>(() => _runner.RunAdminScripts(sqlStatements, connectionString));
+        }
     }
+
 
     public class TestableCompiledUpgradeSql : CompiledUpgradeSql
     {
         private readonly string _sql;
 
-        public TestableCompiledUpgradeSql(string sql) : 
+        public TestableCompiledUpgradeSql(string sql) :
             base(sql, "", Guid.Empty, SqlStatementType.PreDeployment, 0, false)
         {
             _sql = sql;
