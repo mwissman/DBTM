@@ -6,7 +6,6 @@ namespace DBTM.Cmd.Runners
 {
     public class FullBuildApplicationRunner : IApplicationRunner<IFullBuildArguments>
     {
-       
         private readonly IDatabaseRepository _databaseRepository;
         private readonly IDatabaseBuildService _databaseBuildService;
         private readonly ISqlServerDatabaseSettingsBuilder _sqlServerDatabaseSettingsBuilder;
@@ -15,11 +14,9 @@ namespace DBTM.Cmd.Runners
             IDatabaseBuildService databaseBuildService,
             ISqlServerDatabaseSettingsBuilder sqlServerDatabaseSettingsBuilder)
         {
-            
             _databaseRepository = databaseRepository;
             _databaseBuildService = databaseBuildService;
             _sqlServerDatabaseSettingsBuilder = sqlServerDatabaseSettingsBuilder;
-
         }
 
         public ApplicationRunnerResult Run(IFullBuildArguments arguments)

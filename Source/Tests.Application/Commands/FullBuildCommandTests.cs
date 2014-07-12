@@ -65,8 +65,7 @@ namespace Tests.Application.Commands
                                                                 Matches(s =>
                                                                         s.DatabaseFilePath == databaseFilePath &&
                                                                         s.DatabaseName == databaseName &&
-                                                                        s.Server == server &&
-                                                                        s.UserToReceiveAccess == username))).Return(result);
+                                                                        s.Server == server))).Return(result);
 
             _view.Expect(v => v.ShowBuildResultMessage(buildMessage,databaseName));
 
@@ -123,8 +122,7 @@ namespace Tests.Application.Commands
                                                                 Matches(s =>
                                                                         s.DatabaseFilePath == databaseFilePath &&
                                                                         s.DatabaseName == databaseName &&
-                                                                        s.Server == server &&
-                                                                        s.UserToReceiveAccess == username))).Return(result).Repeat.Twice();
+                                                                        s.Server == server ))).Return(result).Repeat.Twice();
 
             _view.Expect(v => v.ShowBuildResultMessage(buildMessage, databaseName)).Repeat.Twice();
 

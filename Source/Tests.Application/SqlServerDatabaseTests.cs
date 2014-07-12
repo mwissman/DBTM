@@ -16,13 +16,11 @@ namespace Tests.Application
             string databaseFilePath = @"C:\blah\foo";
             string databaseName = "databaseName";
             string server = "server";
-            string username = "userName";
 
             string disconnectscript = "disconnectScript";
             string dropscript = "dropScript";
             string createscript = "createScript";
             string connectionString = "some connection string";
-            string password = "pwd";
 
             MockRepository mockRepository = new MockRepository();
 
@@ -32,9 +30,7 @@ namespace Tests.Application
             settings.Stub(s => s.DatabaseFilePath).Return(databaseFilePath);
             settings.Stub(s => s.DatabaseName).Return(databaseName);
             settings.Stub(s => s.Server).Return(server);
-            settings.Stub(s => s.UserToReceiveAccess).Return(username);
             settings.Stub(s => s.AdminConnectionString).Return(connectionString);
-            settings.Stub(s => s.Password).Return(password);
 
             sqlScriptRepository.Expect(s => s.LoadDisconnectUser(databaseName)).Return(disconnectscript);
             sqlScriptRepository.Expect(s => s.LoadDropSchema(databaseName)).Return(dropscript);

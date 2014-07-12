@@ -1,5 +1,6 @@
 using DBTM.Application;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace Tests.Application
 {
@@ -36,5 +37,31 @@ namespace Tests.Application
             Assert.AreEqual(expectedAdminConnectionString, settings.AdminConnectionString);
             Assert.AreEqual(expectedConnectionString, settings.ConnectionString);
         }
+
+        [Test]
+        public void ConnectionStringBuilderUsesAuthenticationInConnectionString()
+        {
+            string dbName = "name";
+            string server = "server";
+            string datafilePath = "blah";
+            var auth = MockRepository.GenerateMock<IAuthenticantion>();
+            auth.Stub(a => a.ToConnectionStringFragment()).Return("--AuthFragement--;");
+
+            var expectedAdminConnectionString = string.Format("Data Source={0};Initial Catalog=Master;--AuthFragement--;Pooling=false;",server);
+
+            var expectedConnectionString = string.Format("Data Source={0};Initial Catalog={1};--AuthFragement--;Pooling=false;", server, dbName);
+
+            ISqlServerDatabaseSettings settings = new SqlServerDatabaseSettings(dbName,
+                                                                                server,
+                                                                                datafilePath,
+                                                                                string.Empty,
+                                                                                auth);
+
+            Assert.AreEqual(expectedAdminConnectionString, settings.AdminConnectionString);
+            Assert.AreEqual(expectedConnectionString, settings.ConnectionString);
+
+        }
     }
+
+   
 }
