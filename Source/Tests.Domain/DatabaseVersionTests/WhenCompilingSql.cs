@@ -171,12 +171,12 @@ GO
                 var actualSql = databaseVersion.CompileSql(databasePrefix, sqlStatementType,false);
 
                 string expectedUpgrade =
-                    string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
-                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_UPGRADE, upgradeSql1, upgradeSql2, upgradeSql3);
+                    (string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
+                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_UPGRADE, upgradeSql1, upgradeSql2, upgradeSql3)).FixNewlines();
 
                 string expectedRollback =
-                    string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
-                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_ROLLBACK, rollbackSql1, rollbackSql2, rollbackSql3);
+                    (string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
+                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_ROLLBACK, rollbackSql1, rollbackSql2, rollbackSql3)).FixNewlines();
                 
                 Assert.AreEqual(expectedUpgrade, actualSql.Upgrade.ToString());
                 Assert.AreEqual(expectedRollback, actualSql.Rollback.ToString());
@@ -232,11 +232,11 @@ GO
 
                 string expectedUpgrade =
                     string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
-                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_UPGRADE_WITH_HISTORY, upgradeSql1.Replace("'", "''"), upgradeSql2.Replace("'", "''"), upgradeSql3.Replace("'", "''"), statement1Id, statement2Id, statement3Id, sqlStatementType);
+                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_UPGRADE_WITH_HISTORY, upgradeSql1.Replace("'", "''"), upgradeSql2.Replace("'", "''"), upgradeSql3.Replace("'", "''"), statement1Id, statement2Id, statement3Id, sqlStatementType).FixNewlines();
 
                 string expectedRollback =
                     string.Format(@"-- Version {0} - {1} ", versionId, sqlStatementType).PadRight(65, '-') +
-                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_ROLLBACK_WITH_HISTORY, rollbackSql1.Replace("'", "''"), rollbackSql2.Replace("'", "''"), rollbackSql3.Replace("'", "''"), statement1Id, statement2Id, statement3Id, sqlStatementType);
+                    string.Format(EXPECTED_SQL_TEMPLATE_DIFFERENT_ORDERS_ROLLBACK_WITH_HISTORY, rollbackSql1.Replace("'", "''"), rollbackSql2.Replace("'", "''"), rollbackSql3.Replace("'", "''"), statement1Id, statement2Id, statement3Id, sqlStatementType).FixNewlines();
 
                 Assert.AreEqual(expectedUpgrade, actualSql.Upgrade.ToString());
                 Assert.AreEqual(expectedRollback, actualSql.Rollback.ToString());

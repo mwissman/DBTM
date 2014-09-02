@@ -1,5 +1,4 @@
-﻿using System;
-using DBTM.Domain.Entities;
+﻿using DBTM.Domain.Entities;
 using NUnit.Framework;
 using Rhino.Mocks;
 
@@ -90,7 +89,7 @@ version 2 pre upgrade
 version 2 post upgrade
 complete version 3 pre upgrade
 complete version 3 post upgrade
-";
+".FixNewlines();
             var actualUpdate = _compiled.Upgrade;
 
             Assert.AreEqual(expectedUpdate,actualUpdate);
@@ -111,7 +110,7 @@ version 1 pre rollback
 
 history rollback
 
-";
+".FixNewlines();
             var actualRollback = _compiled.Rollback;
 
             Assert.AreEqual(expectedRollback, actualRollback);

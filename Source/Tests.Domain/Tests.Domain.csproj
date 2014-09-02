@@ -90,6 +90,7 @@
     <Compile Include="SqlStatementCollectionTests.cs" />
     <Compile Include="SqlStatementIEntitySavedStateMonitorTests.cs" />
     <Compile Include="SqlStatementTests.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DBTM.Application\DBTM.Application.csproj">

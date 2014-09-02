@@ -50,8 +50,8 @@ namespace Tests.Domain.DatabaseTests
     version1CompilePreDeployment.Upgrade, version1CompilePostDeployment.Upgrade,
     version2CompilePreDeployment.Upgrade, version2CompilePostDeployment.Upgrade,
     version3CompilePreDeployment.Upgrade, version3CompilePostDeployment.Upgrade
-    
-    );
+
+    ).FixNewlines();
                 string expectedRollback = string.Format(@"-----------------------------------------------------------------
 -- {0}
 
@@ -69,7 +69,7 @@ namespace Tests.Domain.DatabaseTests
     version2CompilePostDeployment.Rollback, version2CompilePreDeployment.Rollback,
     version1CompilePostDeployment.Rollback, version1CompilePreDeployment.Rollback
 
-    );
+    ).FixNewlines();
 
                 DatabaseVersion version1 = MockRepository.GenerateMock<DatabaseVersion>(1, DateTime.Now);
                 DatabaseVersion version2 = MockRepository.GenerateMock<DatabaseVersion>(2, DateTime.Now);
