@@ -64,6 +64,10 @@ namespace DBTM.Application
                     As<MoveStatementDownCommand>().
                     InstancePerLifetimeScope();
 
+            builder.Register(c => new RemoveStatementCommand()).
+                    As<RemoveStatementCommand>().
+                    InstancePerLifetimeScope();
+
             builder.Register(c => new SetConnectionStringCommand(c.Resolve<IMainWindowView>(),
                                                                  c.Resolve<ITestSqlServerConnectionStrings>(),
                                                                  c.Resolve<IDatabaseSchemaViewModel>())).

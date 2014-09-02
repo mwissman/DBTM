@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Commands\AddStatementCommandTests.cs" />
     <Compile Include="Commands\AddVersionCommandTests.cs" />
+    <Compile Include="Commands\RemoveStatementCommandTests.cs" />
     <Compile Include="Commands\CloseWindowCommandTests.cs" />
     <Compile Include="Commands\CompileAllVersionsTests.cs" />
     <Compile Include="Commands\CompileVersionCommandTests.cs" />

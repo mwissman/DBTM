@@ -44,6 +44,8 @@ namespace Tests.Application.Commands
             _collectionToMoveStatementIn.Expect(sc => sc.MoveItemUp(_statementToMove));
 
             _command.Execute(moveRequest);
+
+            _collectionToMoveStatementIn.AssertWasCalled(sc => sc.SetCanMoveUpDownOnAllStatements());
         }
 
         [Test]
@@ -61,6 +63,7 @@ namespace Tests.Application.Commands
             _command.Execute(moveRequest);
 
             _collectionToMoveStatementIn.AssertWasNotCalled(sc => sc.MoveItemUp(Arg<SqlStatement>.Is.Anything));
+            _collectionToMoveStatementIn.AssertWasCalled(sc => sc.SetCanMoveUpDownOnAllStatements());
         }
 
         [Test]

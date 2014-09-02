@@ -329,6 +329,20 @@
                                     <Image Source="images\Crystal_Clear_action_2uparrow.png"  Height="26" Width="26"/>
                                 </Button>
 
+                                <Button x:Name="btnRemoveStatement" ToolTip="Remove Statement" Margin="0,0,0,2"
+                                    Command="{Binding ElementName=wndMain,Path=DataContext.RemoveStatementCommand}"
+                                    DataContext="{Binding ElementName=tcStatementTypes, Path=SelectedItem.DataContext.SelectedItem}"
+                                    IsEnabled="{Binding Path=IsEditable,FallbackValue=False}">
+                                    <Button.CommandParameter>
+                                        <MultiBinding Converter="{StaticResource ResourceKey=MoveStatementConverter}">
+                                            <Binding ElementName="tcStatementTypes" Path="SelectedItem.DataContext.SelectedItem" />
+                                            <Binding ElementName="tcStatementTypes" Path="SelectedItem.DataContext.ItemsSource"/>
+                                        </MultiBinding>
+                                    </Button.CommandParameter>
+                                    <Image Source="images\Crystal_Clear_action_edit_remove.png"  Height="26" Width="26"/>
+
+                                </Button>
+
                                 <Button x:Name="btnMoveStatementDown" ToolTip="Move Statement Down" Margin="0,2,0,0" 
                                 Command="{Binding ElementName=wndMain,Path=DataContext.MoveStatementDownCommand}"
                                 DataContext="{Binding ElementName=tcStatementTypes, Path=SelectedItem.DataContext.SelectedItem}" 

@@ -29,7 +29,7 @@ namespace DBTM.Domain.Entities
             FireCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        public virtual bool Remove(SqlStatement item)
+        public virtual void Remove(SqlStatement item)
         {
             var index = _internalCollection.IndexOf(item);
             var removed = _internalCollection.Remove(item);
@@ -37,7 +37,7 @@ namespace DBTM.Domain.Entities
             FireCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
 
             item.PropertyChanged -= SqlStatementPropertyChanged;
-            return removed;
+            
         }
 
         public virtual void MoveItemUp(SqlStatement item)
@@ -161,6 +161,21 @@ namespace DBTM.Domain.Entities
             return true;
         }
 
+        public virtual bool CanRemove(SqlStatement item)
+        {
+            if (!item.IsEditable)
+            {
+                return false;
+            }
+
+            if (Count == 0 || item is EmptySqlStatement)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public IEnumerator<SqlStatement> GetEnumerator()
         {
             return _internalCollection.GetEnumerator();
@@ -205,5 +220,7 @@ namespace DBTM.Domain.Entities
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyNameFunc.GetMemberName()));
             }
         }
+
+       
     }
 }

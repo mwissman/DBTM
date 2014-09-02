@@ -85,6 +85,7 @@
     <Compile Include="Commands\NewDatabaseCommand.cs" />
     <Compile Include="Commands\NoOpCommand.cs" />
     <Compile Include="Commands\OpenDatabaseCommand.cs" />
+    <Compile Include="Commands\RemoveStatementCommand.cs" />
     <Compile Include="Commands\SaveDatabaseAsCommand.cs" />
     <Compile Include="Commands\SaveDatabaseCommand.cs" />
     <Compile Include="Commands\SetConnectionStringCommand.cs" />

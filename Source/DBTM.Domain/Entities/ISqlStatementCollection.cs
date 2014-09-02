@@ -8,7 +8,7 @@ namespace DBTM.Domain.Entities
     {
         void Add(SqlStatement item);
         void Clear();
-        bool Remove(SqlStatement item);
+        void Remove(SqlStatement item);
         int Count{ get;}
         int IndexOf(SqlStatement item);
         bool CanMoveUp(SqlStatement item);
@@ -16,5 +16,6 @@ namespace DBTM.Domain.Entities
         void MoveItemUp(SqlStatement item);
         void MoveItemDown(SqlStatement item);
         void SetCanMoveUpDownOnAllStatements();
+        bool CanRemove(SqlStatement statementToRemove);
     }
 }

@@ -96,6 +96,11 @@ namespace DBTM.Application.ViewModels
             get { return _commandFactory.Invoke(typeof(MoveStatementDownCommand)); }
         }
 
+        public ICommand RemoveStatementCommand
+        {
+            get { return _commandFactory.Invoke(typeof(RemoveStatementCommand)); }
+        }
+
         public ICommand SetConnectionStringCommand
         {
             get { return _commandFactory.Invoke(typeof(SetConnectionStringCommand)); }

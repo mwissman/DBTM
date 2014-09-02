@@ -57,7 +57,6 @@ namespace Tests.Domain
             Assert.AreEqual(position2, _collection.IndexOf(_lastStatement));
             Assert.AreEqual(position3, _collection.IndexOf(_middleStatement));
 
-
         }
 
         [Test]
@@ -84,6 +83,13 @@ namespace Tests.Domain
         {
             var collection = new SqlStatementCollection();
             Assert.IsFalse(collection.CanMoveUp(_lastStatement));
+        }
+
+        [Test]
+        public void CanRemoveReturnsFalseIfCollectionIsEmpty()
+        {
+            var collection = new SqlStatementCollection();
+            Assert.IsFalse(collection.CanRemove(_lastStatement));
         }
 
         [Test]
@@ -126,10 +132,11 @@ namespace Tests.Domain
         }
 
         [Test]
-        public void CanMoveUpAndCanMoveDownReturnsFalseIfStatementIsEmpty()
+        public void CanMoveUpAndCanMoveDownAndCanRemvoeReturnsFalseIfStatementIsEmpty()
         {
             Assert.IsFalse(_collection.CanMoveUp(new EmptySqlStatement()));
             Assert.IsFalse(_collection.CanMoveDown(new EmptySqlStatement()));
+            Assert.IsFalse(_collection.CanRemove(new EmptySqlStatement()));
         }
 
         [Test]
@@ -157,6 +164,22 @@ namespace Tests.Domain
         }
 
         [Test]
+        public void CanRemoveChecksToSeeIfStatementIsEditable()
+        {
+            _firstStatement.IsEditable = false;
+
+            Assert.IsFalse(_collection.CanRemove(_firstStatement));
+        }
+
+        [Test]
+        public void CanRemoveIsTrueWhenStatementIsEditiable()
+        {
+            _firstStatement.IsEditable = true;
+
+            Assert.IsTrue(_collection.CanRemove(_firstStatement));
+        }
+
+        [Test]
         public void MarkAsSavedCascadesToChildren()
         {
             SqlStatementCollection collection = new SqlStatementCollection()
@@ -170,7 +193,6 @@ namespace Tests.Domain
             Assert.IsTrue(collection.IsSaved);
             Assert.That(collection.All(x => x.IsSaved));
         }
-
 
         [Test]
         public void WhenAChildSqlStatementBecomesUnsavedSoDoesCollection()
@@ -235,12 +257,18 @@ namespace Tests.Domain
             Assert.IsTrue(collection.IsSaved);
 
             collection.Remove(statement);
+
+            Assert.IsFalse(collection.Contains(statement));
             
             Assert.IsFalse(collection.IsSaved);
 
             //collection unhooks from child
+            collection.MarkAsSaved();
+            Assert.IsTrue(collection.IsSaved);
+
             statement.Description = "asdfasdf";
             Assert.IsFalse(statement.IsSaved);
+            Assert.IsTrue(collection.IsSaved);
         }
 
         [Test]
@@ -331,6 +359,8 @@ namespace Tests.Domain
             CollectionAssert.Contains(propertiesChanged, ((Expression<Func<SqlStatement, object>>)(x => x.IsSaved)).GetMemberName());
         }
 
+
+        
 
     }
 }
