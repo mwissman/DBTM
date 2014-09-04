@@ -12,7 +12,7 @@ FormatTaskName (("-"*25) + "[{0}]" + ("-"*25))
 
 Task Default -Depends Build
 
-Task Build -Depends Clean, Compile, UnitTests, PackageCommandLine
+Task Build -Depends Clean, Compile, UnitTests
 
 Task Compile -Depends Clean {	
 	Write-Host "Building $solution in $solutionConfig mode" -ForegroundColor Green
