@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>dbtm</id>
+    <id>dbtm-UI</id>
     <version>1.0.0.0</version>
     <authors>Matt Wissman</authors>
     <owners>mwissman</owners>
 
     <iconUrl>https://nugetgallery.blob.core.windows.net/icons/Nuget.Core.1.0.1120.104.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Command Line interface for DBTM</description>
+    <description>GUI interface for DBTM</description>
     <tags>DBTM sql</tags>
     <dependencies>
-
+    
     </dependencies>
   </metadata>
 
@@ -19,8 +19,9 @@
     <file src="Autofac.dll" target="\tools\Autofac.dll" />
     <file src="DBTM.Application.dll" target="\tools\DBTM.Application.dll" />
     <file src="DBTM.Domain.dll" target="\tools\DBTM.Domain.dll" />
-    <file src="DBTM.exe" target="\tools\DBTM.exe" />
-    <file src="DBTM.exe.config" target="\tools\DBTM.exe.config" />
+    <file src="DBTM.UI.exe" target="\tools\DBTM.exe" />
+    <file src="DBTM.UI.exe.config" target="\tools\DBTM.exe.config" />
     <file src="DBTM.Infrastructure.dll" target="\tools\DBTM.Infrastructure.dll" />
+    <file src="ICSharpCode.AvalonEdit.dll" target="\tools\ICSharpCode.AvalonEdit.dll" />
   </files>
 </package>
