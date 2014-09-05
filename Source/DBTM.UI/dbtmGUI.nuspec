@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>dbtm-UI</id>
-    <version>1.0.0.0</version>
+    <version>$version$</version>
     <authors>Matt Wissman</authors>
     <owners>mwissman</owners>
 
@@ -19,9 +19,11 @@
     <file src="Autofac.dll" target="\tools\Autofac.dll" />
     <file src="DBTM.Application.dll" target="\tools\DBTM.Application.dll" />
     <file src="DBTM.Domain.dll" target="\tools\DBTM.Domain.dll" />
-    <file src="DBTM.UI.exe" target="\tools\DBTM.exe" />
+    <file src="DBTM.UI.exe.gui" target="\tools\DBTM.UI.exe.gui" />
+    <file src="DBTM.UI.exe" target="\tools\DBTM.UI.exe" />
     <file src="DBTM.UI.exe.config" target="\tools\DBTM.exe.config" />
     <file src="DBTM.Infrastructure.dll" target="\tools\DBTM.Infrastructure.dll" />
     <file src="ICSharpCode.AvalonEdit.dll" target="\tools\ICSharpCode.AvalonEdit.dll" />
+    <file src="chocolateyInstall.ps1" target="\tools\chocolateyInstall.ps1" />
   </files>
 </package>

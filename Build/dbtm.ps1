@@ -6,6 +6,7 @@ Properties {
 	$version = if ($env:APPVEYOR_BUILD_VERSION) {$env:APPVEYOR_BUILD_VERSION } else { "1.0.0.0"}
 	$solution="DB Transition Manager.sln"
 	$nunitRunnerExe="$base_dir\packages\NUnit.Runners.2.6.3\tools\nunit-console.exe"
+	$packageDir="$base_dir\__deployPackages"
 }
 
 FormatTaskName (("-"*25) + "[{0}]" + ("-"*25))
@@ -46,6 +47,17 @@ Task UnitTests {
 }
 
 
-Task PackageCommandLine -precondition { if ($env:APPVEYOR ) {$true } else { $false} } {
-	nuget pack "$base_dir\$solution\dbtmCommandLine.nuspec" -Version $version -OutputDirectory "$base_dir\__deployPackages"
+Task PackageCommandLine {
+	New-Item -ItemType Directory -Force -Path $packageDir >$null
+
+	nuget pack "$base_dir\Source\Build\$solutionConfig\dbtmCommandLine.nuspec" -Version $version -OutputDirectory $packageDir
+}
+
+#-precondition { if ($env:APPVEYOR ) {$true } else { $false} } 
+#C:\_git\DBTM\packages\NuGet.CommandLine.2.8.2\tools\
+
+Task PackageGUI {
+	New-Item -ItemType Directory -Force -Path $packageDir >$null
+
+	nuget pack "$base_dir\Source\Build\$solutionConfig\dbtmGUI.nuspec" -version $version -OutputDirectory $packageDir
 }

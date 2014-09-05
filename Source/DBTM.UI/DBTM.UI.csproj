@@ -202,6 +202,9 @@
     <None Include="dbtmCommandLine.nuspec">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="DBTM.UI.exe.gui">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="dbtmGUI.nuspec">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
