@@ -54,7 +54,7 @@ namespace Tests.Application.Commands
 
             _command.Execute(null);
 
-            _migrator.AssertWasCalled(m=>m.EnsureStatementsHaveIds(_database));
+            _migrator.AssertWasCalled(m=>m.Migrate(_database));
         }
  
         [Test]

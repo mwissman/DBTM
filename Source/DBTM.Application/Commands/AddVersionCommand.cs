@@ -24,7 +24,7 @@ namespace DBTM.Application.Commands
             var database = _viewModel.Database;
             var newVersion = database.AddChangeset();
             
-            _migrator.EnsureStatementsHaveIds(database);
+            _migrator.Migrate(database);
 
             _view.UpdateSelectedVersion(newVersion);
         }

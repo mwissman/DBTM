@@ -5,16 +5,16 @@ using DBTM.Domain.Entities;
 
 namespace DBTM.Domain
 {
-    public class Migrator : IMigrator
+    public class EnsureStatementsHaveIds : IMigrator
     {
         private readonly IGuidFactory _guidFactory;
 
-        public Migrator(IGuidFactory guidFactory)
+        public EnsureStatementsHaveIds(IGuidFactory guidFactory)
         {
             _guidFactory = guidFactory;
         }
 
-        public void EnsureStatementsHaveIds(Database database)
+        public void Migrate(Database database)
         {
             database.Versions.ForEach(v =>
                 {

@@ -46,7 +46,7 @@ namespace Tests.Cmd.CreateVersionApplicationRunnerTests
 
                 _repository.Expect(r => r.Load(dbschemaFilePath)).Return(_database);
                 _database.Expect(d => d.AddChangeset());
-                _migrator.Expect(m => m.EnsureStatementsHaveIds(_database));
+                _migrator.Expect(m => m.Migrate(_database));
                 _repository.Expect(r => r.Save(_database, dbschemaFilePath));
 
                 var result = _runner.Run(_arguments);

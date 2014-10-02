@@ -19,7 +19,7 @@ namespace DBTM.Cmd.Runners
         {
             var database = _databaseRepository.Load(arguments.DatabaseSchemaFilePath);
             database.AddChangeset();
-            _migrator.EnsureStatementsHaveIds(database);
+            _migrator.Migrate(database);
             _databaseRepository.Save(database,arguments.DatabaseSchemaFilePath);
 
             return new ApplicationRunnerResult(true,"Create Version succeeded.");

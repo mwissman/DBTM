@@ -93,7 +93,7 @@
     <Compile Include="IGuidFactory.cs" />
     <Compile Include="IMigrator.cs" />
     <Compile Include="IXMLSerialize.cs" />
-    <Compile Include="Migrator.cs" />
+    <Compile Include="EnsureStatementsHaveIds.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entities\SqlStatement.cs" />
     <Compile Include="XMLSerializer.cs" />

@@ -20,7 +20,7 @@ namespace DBTM.Domain
                 .As<IGuidFactory>()
                 .InstancePerLifetimeScope();
 
-            builder.Register(c => new Migrator(c.Resolve<IGuidFactory>()))
+            builder.Register(c => new EnsureStatementsHaveIds(c.Resolve<IGuidFactory>()))
                 .As<IMigrator>()
                 .InstancePerLifetimeScope();
         }

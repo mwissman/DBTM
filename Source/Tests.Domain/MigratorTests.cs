@@ -10,14 +10,14 @@ namespace Tests.Domain
     public class MigratorTests
     {
         private IGuidFactory _guidFactory;
-        private Migrator _migrator;
+        private EnsureStatementsHaveIds _ensureStatementsHaveIds;
 
         [SetUp]
         public void Setup()
         {
             _guidFactory = MockRepository.GenerateMock<IGuidFactory>();
 
-            _migrator = new Migrator(_guidFactory);
+            _ensureStatementsHaveIds = new EnsureStatementsHaveIds(_guidFactory);
 
 
         }
@@ -56,7 +56,7 @@ namespace Tests.Domain
             version2.PreDeploymentStatements.Add(sqlStatement7);
             version2.PreDeploymentStatements.Add(sqlStatement8);
 
-            _migrator.EnsureStatementsHaveIds(database);
+            _ensureStatementsHaveIds.Migrate(database);
 
 
             Assert.AreEqual(sqlStatement1.Id,guid);

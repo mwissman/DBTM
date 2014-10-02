@@ -4,6 +4,6 @@ namespace DBTM.Domain
 {
     public interface IMigrator
     {
-        void EnsureStatementsHaveIds(Database database);
+        void Migrate(Database database);
     }
 }
